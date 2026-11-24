@@ -2,58 +2,231 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>楽園追放 -Expelled from Paradise- / 心のレゾナンス グッズアーカイブ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>楽園追放 心のレゾナンス グッズ管理DB</title>
+
+  <!-- PWA & Mobile Standalone Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="楽園追放DB">
+  <meta name="theme-color" content="#050a14">
+
+  <!-- Dynamic Icon & Manifest Targets (Populated immediately on load) -->
+  <link id="app-favicon" rel="icon" type="image/png">
+  <link id="app-apple-icon" rel="apple-touch-icon">
+  <link id="app-manifest" rel="manifest">
+
+  <script>
+    // =========================================================================
+    // Early Inline PWA Bootstrapper (Canvas PNG Icons + Data-URI Manifest + SW)
+    // =========================================================================
+    (function initSingleFilePWA() {
+      try {
+        function renderDevaIconDataUrl(size) {
+          const canvas = document.createElement("canvas");
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return "";
+
+          const cx = size / 2;
+          const cy = size / 2;
+
+          // Deep Obsidian Background
+          ctx.fillStyle = "#050a14";
+          ctx.fillRect(0, 0, size, size);
+
+          // Subtle Ambient Radial Glows (Cyan & Violet)
+          const gradCyan = ctx.createRadialGradient(size * 0.25, size * 0.22, size * 0.02, size * 0.25, size * 0.22, size * 0.65);
+          gradCyan.addColorStop(0, "rgba(0, 240, 255, 0.28)");
+          gradCyan.addColorStop(1, "rgba(0, 240, 255, 0)");
+          ctx.fillStyle = gradCyan;
+          ctx.fillRect(0, 0, size, size);
+
+          const gradPurple = ctx.createRadialGradient(size * 0.78, size * 0.78, size * 0.02, size * 0.78, size * 0.78, size * 0.65);
+          gradPurple.addColorStop(0, "rgba(168, 85, 247, 0.28)");
+          gradPurple.addColorStop(1, "rgba(168, 85, 247, 0)");
+          ctx.fillStyle = gradPurple;
+          ctx.fillRect(0, 0, size, size);
+
+          // Subtle Cyber Grid
+          ctx.strokeStyle = "rgba(0, 240, 255, 0.08)";
+          ctx.lineWidth = Math.max(1, size * 0.004);
+          const step = size / 8;
+          for (let i = 1; i < 8; i++) {
+            ctx.beginPath();
+            ctx.moveTo(i * step, 0);
+            ctx.lineTo(i * step, size);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(0, i * step);
+            ctx.lineTo(size, i * step);
+            ctx.stroke();
+          }
+
+          // Outer Neon Cyan Hexagonal Frame
+          const outerR = size * 0.36;
+          ctx.save();
+          ctx.strokeStyle = "#00f0ff";
+          ctx.lineWidth = size * 0.024;
+          ctx.shadowColor = "rgba(0, 240, 255, 0.75)";
+          ctx.shadowBlur = size * 0.04;
+          ctx.beginPath();
+          for (let i = 0; i < 6; i++) {
+            const angle = (Math.PI / 3) * i - Math.PI / 2;
+            const px = cx + outerR * Math.cos(angle);
+            const py = cy + outerR * Math.sin(angle);
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.closePath();
+          ctx.stroke();
+          ctx.restore();
+
+          // Inner Neon Violet Diamond Resonance Ring
+          const innerR = size * 0.23;
+          ctx.save();
+          ctx.strokeStyle = "#a855f7";
+          ctx.lineWidth = size * 0.02;
+          ctx.shadowColor = "rgba(168, 85, 247, 0.8)";
+          ctx.shadowBlur = size * 0.035;
+          ctx.beginPath();
+          ctx.moveTo(cx, cy - innerR);
+          ctx.lineTo(cx + innerR, cy);
+          ctx.lineTo(cx, cy + innerR);
+          ctx.lineTo(cx - innerR, cy);
+          ctx.closePath();
+          ctx.stroke();
+          ctx.restore();
+
+          // Center Glowing Core
+          ctx.save();
+          ctx.fillStyle = "#00f0ff";
+          ctx.shadowColor = "#00f0ff";
+          ctx.shadowBlur = size * 0.045;
+          ctx.beginPath();
+          ctx.arc(cx, cy, size * 0.055, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+
+          return canvas.toDataURL("image/png");
+        }
+
+        const icon192 = renderDevaIconDataUrl(192);
+        const icon512 = renderDevaIconDataUrl(512);
+
+        if (icon192) {
+          const fav = document.getElementById("app-favicon");
+          const apple = document.getElementById("app-apple-icon");
+          if (fav) fav.href = icon192;
+          if (apple) apple.href = icon192;
+        }
+
+        const startUrl = window.location.href;
+        let scopeUrl = "./";
+        try {
+          scopeUrl = new URL("./", window.location.href).href;
+        } catch (e) {}
+
+        const manifestData = {
+          name: "楽園追放 グッズ管理DB",
+          short_name: "楽園追放DB",
+          description: "『楽園追放 心のレゾナンス』ガブリエル＆ラグエル コレクション管理データベース",
+          start_url: startUrl,
+          scope: scopeUrl,
+          display: "standalone",
+          orientation: "portrait-primary",
+          background_color: "#050a14",
+          theme_color: "#050a14",
+          icons: [
+            {
+              src: icon192,
+              sizes: "192x192",
+              type: "image/png",
+              purpose: "any maskable"
+            },
+            {
+              src: icon512,
+              sizes: "512x512",
+              type: "image/png",
+              purpose: "any maskable"
+            }
+          ]
+        };
+
+        const manifestEl = document.getElementById("app-manifest");
+        if (manifestEl) {
+          manifestEl.href = "data:application/manifest+json;charset=utf-8," + encodeURIComponent(JSON.stringify(manifestData));
+        }
+
+        // Inline Blob Service Worker Registration (fails silently in sandboxed iframes)
+        if ("serviceWorker" in navigator) {
+          const swCode = [
+            "self.addEventListener('install', function(e) { self.skipWaiting(); });",
+            "self.addEventListener('activate', function(e) { e.waitUntil(self.clients.claim()); });",
+            "self.addEventListener('fetch', function(e) {});"
+          ].join("\n");
+          const blob = new Blob([swCode], { type: "application/javascript" });
+          const swUrl = URL.createObjectURL(blob);
+          navigator.serviceWorker.register(swUrl).catch(function() {});
+        }
+      } catch (err) {
+        // Silently ignore in restricted preview contexts
+      }
+    })();
+  </script>
+
   <style>
     /* =========================================================================
-       1. Design Tokens & Theme Variables (DEVA Cyber Default & Simple Light)
+       1. Design Tokens (DEVA Security Bureau Cyber Default & Simple Light)
        ========================================================================= */
     :root {
-      /* Cyber Theme (Default: Sleek Obsidian-Slate DEVA Terminal) */
       --bg-primary: #050a14;
-      --bg-secondary: #091122;
-      --card-bg: rgba(15, 23, 42, 0.78);
-      --card-bg-solid: #0f172a;
-      --card-bg-elevated: rgba(30, 41, 59, 0.65);
-      --header-bg: rgba(5, 10, 20, 0.84);
-      --input-bg: rgba(7, 13, 27, 0.85);
+      --bg-secondary: #0a1224;
+      --card-bg: rgba(13, 21, 38, 0.78);
+      --card-bg-solid: #0e172a;
+      --card-bg-elevated: rgba(24, 36, 62, 0.68);
+      --header-bg: rgba(5, 10, 20, 0.86);
+      --input-bg: rgba(6, 12, 24, 0.88);
 
       --border-subtle: rgba(148, 163, 184, 0.16);
-      --border-strong: rgba(148, 163, 184, 0.28);
-      --border-cyan: rgba(34, 211, 238, 0.34);
-      --border-purple: rgba(192, 132, 252, 0.36);
+      --border-strong: rgba(148, 163, 184, 0.30);
+      --border-cyan: rgba(0, 240, 255, 0.38);
+      --border-purple: rgba(168, 85, 247, 0.42);
 
       --text-primary: #f8fafc;
       --text-secondary: #cbd5e1;
       --text-muted: #94a3b8;
 
-      --accent-cyan: #22d3ee;
+      --accent-cyan: #00f0ff;
       --accent-cyan-deep: #06b6d4;
-      --accent-cyan-soft: rgba(6, 182, 212, 0.14);
+      --accent-cyan-soft: rgba(0, 240, 255, 0.13);
       --accent-purple: #c084fc;
       --accent-purple-deep: #a855f7;
-      --accent-purple-soft: rgba(168, 85, 247, 0.15);
+      --accent-purple-soft: rgba(168, 85, 247, 0.16);
       --accent-blue: #60a5fa;
-      --accent-blue-soft: rgba(59, 130, 246, 0.15);
+      --accent-blue-soft: rgba(59, 130, 246, 0.16);
       --accent-emerald: #34d399;
-      --accent-emerald-soft: rgba(16, 185, 129, 0.14);
+      --accent-emerald-soft: rgba(16, 185, 129, 0.15);
       --accent-amber: #fbbf24;
-      --accent-amber-soft: rgba(245, 158, 11, 0.14);
+      --accent-amber-soft: rgba(245, 158, 11, 0.15);
       --accent-pink: #f472b6;
-      --accent-pink-soft: rgba(244, 114, 182, 0.15);
+      --accent-pink-soft: rgba(244, 114, 182, 0.16);
       --accent-rose: #fb7185;
-      --accent-rose-soft: rgba(244, 63, 94, 0.15);
+      --accent-rose-soft: rgba(244, 63, 94, 0.16);
 
-      --shadow-card: 0 10px 30px -8px rgba(0, 0, 0, 0.55);
-      --glow-cyan: 0 0 28px rgba(6, 182, 212, 0.12);
-      --glow-purple: 0 0 28px rgba(168, 85, 247, 0.12);
+      --shadow-card: 0 12px 32px -8px rgba(0, 0, 0, 0.62);
+      --glow-cyan: 0 0 28px rgba(0, 240, 255, 0.13);
+      --glow-purple: 0 0 28px rgba(168, 85, 247, 0.14);
 
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 16px;
       --radius-xl: 20px;
 
-      --font-sans: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Segoe UI", Meiryo, sans-serif;
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", "Segoe UI", sans-serif;
       --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     }
 
@@ -64,7 +237,7 @@
       --card-bg: #ffffff;
       --card-bg-solid: #ffffff;
       --card-bg-elevated: #f1f5f9;
-      --header-bg: rgba(255, 255, 255, 0.92);
+      --header-bg: rgba(255, 255, 255, 0.94);
       --input-bg: #f8fafc;
 
       --border-subtle: #e2e8f0;
@@ -99,7 +272,7 @@
     }
 
     /* =========================================================================
-       2. Base Reset & Sleek Cyber Background Atmosphere
+       2. Base Reset & Cyber Grid Atmosphere
        ========================================================================= */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -119,15 +292,14 @@
       transition: background-color 0.25s ease, color 0.25s ease;
     }
 
-    /* Subtle cyber grid + ambient radial cyan/purple lighting in Cyber Mode */
     body:not(.theme-simple) {
       background-image:
-        radial-gradient(ellipse 65% 40% at 15% -5%, rgba(6, 182, 212, 0.16) 0%, transparent 65%),
-        radial-gradient(ellipse 65% 40% at 85% -5%, rgba(168, 85, 247, 0.15) 0%, transparent 65%),
-        radial-gradient(ellipse 80% 50% at 50% 105%, rgba(30, 58, 138, 0.18) 0%, transparent 70%),
-        linear-gradient(rgba(34, 211, 238, 0.032) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(34, 211, 238, 0.032) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        radial-gradient(ellipse 68% 42% at 14% -4%, rgba(0, 240, 255, 0.15) 0%, transparent 65%),
+        radial-gradient(ellipse 68% 42% at 86% -4%, rgba(168, 85, 247, 0.16) 0%, transparent 65%),
+        radial-gradient(ellipse 80% 50% at 50% 106%, rgba(30, 58, 138, 0.18) 0%, transparent 70%),
+        linear-gradient(rgba(0, 240, 255, 0.032) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.032) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 38px 38px, 38px 38px;
       background-attachment: fixed;
     }
 
@@ -155,6 +327,13 @@
       display: none !important;
     }
 
+    /* Hide PWA install button automatically when launched as standalone PWA */
+    @media all and (display-mode: standalone) {
+      .pwa-only-browser {
+        display: none !important;
+      }
+    }
+
     /* =========================================================================
        3. Sticky Glassmorphic Terminal Header
        ========================================================================= */
@@ -166,25 +345,26 @@
       border-bottom: 1px solid var(--border-subtle);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
+      padding-top: env(safe-area-inset-top, 0px);
     }
 
     .header-inner {
       max-width: 1280px;
       margin: 0 auto;
-      padding: 12px 18px;
+      padding: 12px 16px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
 
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 13px;
+      gap: 12px;
       min-width: 0;
-      flex: 1 1 290px;
+      flex: 1 1 280px;
     }
 
     .brand-icon-wrap {
@@ -194,10 +374,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(168, 85, 247, 0.22));
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.18), rgba(168, 85, 247, 0.22));
       border: 1px solid var(--border-cyan);
       color: var(--accent-cyan);
-      box-shadow: 0 0 20px rgba(6, 182, 212, 0.18);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.18);
       flex-shrink: 0;
     }
 
@@ -214,13 +394,13 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       margin-bottom: 2px;
     }
 
     .terminal-tag {
       font-family: var(--font-mono);
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.08em;
       color: var(--accent-cyan);
@@ -229,7 +409,7 @@
     .sync-status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       padding: 2px 9px;
       border-radius: 999px;
       font-size: 10.5px;
@@ -246,7 +426,7 @@
 
     .sync-status-badge.synced {
       background: var(--accent-emerald-soft);
-      border-color: rgba(52, 211, 153, 0.35);
+      border-color: rgba(52, 211, 153, 0.38);
       color: var(--accent-emerald);
     }
 
@@ -280,11 +460,11 @@
 
     .hero-title {
       margin: 0;
-      font-size: 18px;
+      font-size: 17.5px;
       font-weight: 800;
       letter-spacing: -0.01em;
       line-height: 1.25;
-      background: linear-gradient(120deg, #f8fafc 10%, #38bdf8 55%, #c084fc 100%);
+      background: linear-gradient(120deg, #f8fafc 10%, #00f0ff 55%, #c084fc 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -297,17 +477,17 @@
 
     .hero-subtitle {
       margin: 1px 0 0;
-      font-size: 11.5px;
+      font-size: 11px;
       color: var(--text-muted);
       font-weight: 500;
     }
 
-    /* Header Controls */
+    /* Header Action Controls */
     .header-actions {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
     }
 
     .segmented-pill {
@@ -334,9 +514,9 @@
     }
 
     .seg-btn.active {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.24), rgba(168, 85, 247, 0.24));
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.22), rgba(168, 85, 247, 0.24));
       color: var(--text-primary);
-      border: 1px solid rgba(34, 211, 238, 0.35);
+      border: 1px solid rgba(0, 240, 255, 0.38);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     }
 
@@ -364,11 +544,25 @@
     .btn-header:hover {
       border-color: var(--accent-cyan);
       color: var(--text-primary);
-      background: rgba(30, 41, 59, 0.9);
     }
 
-    body.theme-simple .btn-header:hover {
-      background: #e2e8f0;
+    .btn-pwa-install {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 11px;
+      border-radius: 10px;
+      border: 1px solid rgba(168, 85, 247, 0.48);
+      background: var(--accent-purple-soft);
+      color: var(--accent-purple);
+      font-size: 11.5px;
+      font-weight: 800;
+      transition: all 0.18s ease;
+    }
+
+    .btn-pwa-install:hover {
+      border-color: var(--accent-cyan);
+      color: var(--text-primary);
     }
 
     .btn-primary-grad {
@@ -377,18 +571,18 @@
       gap: 5px;
       padding: 7px 13px;
       border-radius: 10px;
-      border: 1px solid rgba(34, 211, 238, 0.45);
+      border: 1px solid rgba(0, 240, 255, 0.45);
       background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 52%, #9333ea 100%);
       color: #ffffff;
       font-size: 11.5px;
       font-weight: 800;
-      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.28);
+      box-shadow: 0 4px 16px rgba(0, 240, 255, 0.24);
       transition: transform 0.15s ease, box-shadow 0.18s ease;
     }
 
     .btn-primary-grad:hover {
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
+      box-shadow: 0 6px 20px rgba(0, 240, 255, 0.36);
     }
 
     .spin-icon {
@@ -400,24 +594,24 @@
     }
 
     /* =========================================================================
-       4. Main Workspace Container
+       4. Main Workspace
        ========================================================================= */
     .workspace {
       max-width: 1280px;
       margin: 0 auto;
-      padding: 20px 18px 64px;
+      padding: 18px 16px 64px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
     }
 
     /* =========================================================================
-       5. Character Profile HUD Cards (Cyber Mode) & Compact Strip (Simple Mode)
+       5. 2-Column Character Profile HUD Cards (Cyber Mode) & Simple Strip
        ========================================================================= */
     .char-hud-section {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: 15px;
     }
 
     @media (min-width: 860px) {
@@ -449,16 +643,16 @@
       border: 1px solid var(--border-cyan);
       box-shadow: var(--shadow-card), var(--glow-cyan);
       background:
-        radial-gradient(circle at 95% 8%, rgba(6, 182, 212, 0.16) 0%, transparent 50%),
-        rgba(15, 23, 42, 0.82);
+        radial-gradient(circle at 95% 8%, rgba(0, 240, 255, 0.15) 0%, transparent 52%),
+        rgba(13, 21, 38, 0.84);
     }
 
     .hud-profile-card.raguel {
       border: 1px solid var(--border-purple);
       box-shadow: var(--shadow-card), var(--glow-purple);
       background:
-        radial-gradient(circle at 95% 8%, rgba(168, 85, 247, 0.17) 0%, transparent 50%),
-        rgba(15, 23, 42, 0.82);
+        radial-gradient(circle at 95% 8%, rgba(168, 85, 247, 0.17) 0%, transparent 52%),
+        rgba(13, 21, 38, 0.84);
     }
 
     .hud-card-topline {
@@ -478,13 +672,8 @@
       letter-spacing: 0.06em;
     }
 
-    .hud-profile-card.gabriel .hud-unit-code {
-      color: var(--accent-cyan);
-    }
-
-    .hud-profile-card.raguel .hud-unit-code {
-      color: var(--accent-purple);
-    }
+    .hud-profile-card.gabriel .hud-unit-code { color: var(--accent-cyan); }
+    .hud-profile-card.raguel .hud-unit-code { color: var(--accent-purple); }
 
     .cv-pill {
       font-size: 11px;
@@ -496,13 +685,13 @@
     .hud-profile-card.gabriel .cv-pill {
       background: var(--accent-cyan-soft);
       color: var(--accent-cyan);
-      border: 1px solid rgba(34, 211, 238, 0.35);
+      border: 1px solid rgba(0, 240, 255, 0.36);
     }
 
     .hud-profile-card.raguel .cv-pill {
       background: var(--accent-purple-soft);
       color: var(--accent-purple);
-      border: 1px solid rgba(192, 132, 252, 0.38);
+      border: 1px solid rgba(168, 85, 247, 0.4);
     }
 
     .hud-identity-row {
@@ -522,15 +711,15 @@
     }
 
     .hud-profile-card.gabriel .cyber-emblem-box {
-      background: linear-gradient(145deg, rgba(6, 182, 212, 0.2), rgba(14, 116, 144, 0.12));
-      border: 1px solid rgba(34, 211, 238, 0.42);
+      background: linear-gradient(145deg, rgba(0, 240, 255, 0.18), rgba(14, 116, 144, 0.12));
+      border: 1px solid rgba(0, 240, 255, 0.44);
       color: var(--accent-cyan);
-      box-shadow: 0 0 20px rgba(6, 182, 212, 0.18);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.18);
     }
 
     .hud-profile-card.raguel .cyber-emblem-box {
       background: linear-gradient(145deg, rgba(168, 85, 247, 0.22), rgba(107, 33, 168, 0.12));
-      border: 1px solid rgba(192, 132, 252, 0.45);
+      border: 1px solid rgba(168, 85, 247, 0.46);
       color: var(--accent-purple);
       box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
     }
@@ -555,7 +744,7 @@
       font-size: 11.5px;
       font-weight: 700;
       letter-spacing: 0.08em;
-      opacity: 0.85;
+      opacity: 0.88;
     }
 
     .hud-profile-card.gabriel .hud-char-title span { color: var(--accent-cyan); }
@@ -568,9 +757,8 @@
       line-height: 1.55;
     }
 
-    /* Character Real-Time Stats Matrix */
     .hud-telemetry-panel {
-      background: rgba(5, 10, 20, 0.55);
+      background: rgba(5, 10, 20, 0.56);
       border: 1px solid var(--border-subtle);
       border-radius: 13px;
       padding: 11px 13px;
@@ -650,13 +838,13 @@
     }
 
     .hud-profile-card.gabriel .progress-fill {
-      background: linear-gradient(90deg, #0284c7, #22d3ee);
-      box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+      background: linear-gradient(90deg, #0284c7, #00f0ff);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.55);
     }
 
     .hud-profile-card.raguel .progress-fill {
       background: linear-gradient(90deg, #7e22ce, #c084fc);
-      box-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
+      box-shadow: 0 0 10px rgba(192, 132, 252, 0.55);
     }
 
     .btn-char-filter {
@@ -670,19 +858,19 @@
 
     .hud-profile-card.gabriel .btn-char-filter {
       background: var(--accent-cyan-soft);
-      border: 1px solid rgba(34, 211, 238, 0.42);
+      border: 1px solid rgba(0, 240, 255, 0.42);
       color: var(--accent-cyan);
     }
 
     .hud-profile-card.gabriel .btn-char-filter:hover,
     .hud-profile-card.gabriel .btn-char-filter.is-filtered {
-      background: var(--accent-cyan-deep);
+      background: #00f0ff;
       color: #050a14;
     }
 
     .hud-profile-card.raguel .btn-char-filter {
       background: var(--accent-purple-soft);
-      border: 1px solid rgba(192, 132, 252, 0.45);
+      border: 1px solid rgba(168, 85, 247, 0.45);
       color: var(--accent-purple);
     }
 
@@ -771,9 +959,9 @@
       gap: 4px;
     }
 
-    .kpi-card.owned { border-color: rgba(52, 211, 153, 0.32); }
-    .kpi-card.reserved { border-color: rgba(192, 132, 252, 0.32); }
-    .kpi-card.wish { border-color: rgba(251, 191, 36, 0.32); }
+    .kpi-card.owned { border-color: rgba(52, 211, 153, 0.34); }
+    .kpi-card.wish { border-color: rgba(251, 191, 36, 0.34); }
+    .kpi-card.reserved { border-color: rgba(168, 85, 247, 0.34); }
 
     .kpi-head {
       display: flex;
@@ -793,8 +981,8 @@
     }
 
     .kpi-card.owned .kpi-main-val { color: var(--accent-emerald); }
-    .kpi-card.reserved .kpi-main-val { color: var(--accent-purple); }
     .kpi-card.wish .kpi-main-val { color: var(--accent-amber); }
+    .kpi-card.reserved .kpi-main-val { color: var(--accent-purple); }
 
     .kpi-sub-val {
       font-family: var(--font-mono);
@@ -816,7 +1004,7 @@
       box-shadow: var(--shadow-card);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 11px;
     }
 
     .control-top-row {
@@ -825,7 +1013,7 @@
       gap: 10px;
     }
 
-    @media (min-width: 840px) {
+    @media (min-width: 860px) {
       .control-top-row {
         flex-direction: row;
         align-items: center;
@@ -848,7 +1036,7 @@
       color: var(--text-muted);
       font-size: 12px;
       font-weight: 700;
-      padding: 6px 12px;
+      padding: 6px 11px;
       border-radius: 8px;
       transition: all 0.16s ease;
     }
@@ -858,9 +1046,9 @@
     }
 
     .char-tab.active {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(59, 130, 246, 0.25));
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.22), rgba(59, 130, 246, 0.24));
       color: var(--text-primary);
-      border: 1px solid rgba(34, 211, 238, 0.35);
+      border: 1px solid rgba(0, 240, 255, 0.36);
     }
 
     body.theme-simple .char-tab.active {
@@ -871,13 +1059,14 @@
 
     .search-sort-group {
       display: flex;
+      flex-wrap: wrap;
       flex: 1;
       gap: 8px;
     }
 
     .search-input-box {
       position: relative;
-      flex: 1;
+      flex: 1 1 200px;
     }
 
     .search-input-box svg {
@@ -907,7 +1096,7 @@
 
     .field-input:focus {
       border-color: var(--accent-cyan);
-      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+      box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);
     }
 
     .sort-select {
@@ -919,7 +1108,6 @@
       font-size: 12px;
       font-weight: 700;
       outline: none;
-      flex-shrink: 0;
     }
 
     .pill-filter-row {
@@ -935,14 +1123,14 @@
       font-size: 11px;
       font-weight: 700;
       color: var(--text-muted);
-      margin-right: 4px;
+      margin-right: 3px;
     }
 
     .filter-pill {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
+      gap: 4px;
+      padding: 5px 10px;
       border-radius: 999px;
       border: 1px solid var(--border-subtle);
       background: var(--card-bg-elevated);
@@ -972,7 +1160,7 @@
     .pill-cnt {
       font-family: var(--font-mono);
       font-size: 10px;
-      opacity: 0.8;
+      opacity: 0.82;
     }
 
     /* =========================================================================
@@ -997,7 +1185,7 @@
       width: 4px;
       height: 20px;
       border-radius: 4px;
-      background: linear-gradient(180deg, #22d3ee, #a855f7);
+      background: linear-gradient(180deg, #00f0ff, #a855f7);
     }
 
     .archive-title-wrap h2 {
@@ -1041,7 +1229,6 @@
       gap: 10px;
     }
 
-    /* Individual Merchandise Card */
     .merch-card {
       position: relative;
       background: var(--card-bg);
@@ -1054,35 +1241,25 @@
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
-      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+      transition: transform 0.18s ease, border-color 0.18s ease;
     }
 
     .merch-card:hover {
       transform: translateY(-2px);
-      border-color: rgba(34, 211, 238, 0.42);
+      border-color: rgba(0, 240, 255, 0.44);
     }
 
-    .merch-card.status-owned {
-      border-color: rgba(52, 211, 153, 0.36);
-    }
-
-    .merch-card.status-reserved {
-      border-color: rgba(192, 132, 252, 0.38);
-    }
+    .merch-card.status-owned { border-color: rgba(52, 211, 153, 0.38); }
+    .merch-card.status-reserved { border-color: rgba(168, 85, 247, 0.40); }
 
     .card-top-ribbon {
       height: 3px;
       width: 100%;
-      background: linear-gradient(90deg, #22d3ee, #c084fc);
+      background: linear-gradient(90deg, #00f0ff, #a855f7);
     }
 
-    .card-top-ribbon.gabriel {
-      background: linear-gradient(90deg, #06b6d4, #38bdf8);
-    }
-
-    .card-top-ribbon.raguel {
-      background: linear-gradient(90deg, #9333ea, #e879f9);
-    }
+    .card-top-ribbon.gabriel { background: linear-gradient(90deg, #06b6d4, #00f0ff); }
+    .card-top-ribbon.raguel { background: linear-gradient(90deg, #9333ea, #e879f9); }
 
     .card-body {
       padding: 15px 16px;
@@ -1143,7 +1320,7 @@
     .badge-cat.plush {
       background: var(--accent-pink-soft);
       color: var(--accent-pink);
-      border-color: rgba(244, 114, 182, 0.35);
+      border-color: rgba(244, 114, 182, 0.38);
       font-weight: 800;
     }
 
@@ -1157,7 +1334,7 @@
     }
 
     .btn-edit-icon {
-      padding: 4px 8px;
+      padding: 4px 9px;
       border-radius: 7px;
       border: 1px solid var(--border-subtle);
       background: var(--card-bg-elevated);
@@ -1225,7 +1402,7 @@
 
     .card-footer {
       padding: 10px 14px;
-      background: rgba(5, 10, 20, 0.35);
+      background: rgba(5, 10, 20, 0.36);
       border-top: 1px solid var(--border-subtle);
       display: flex;
       flex-wrap: wrap;
@@ -1245,7 +1422,7 @@
     }
 
     .st-chip-btn {
-      padding: 4px 8px;
+      padding: 5px 8px;
       border-radius: 7px;
       border: 1px solid var(--border-subtle);
       background: var(--card-bg-solid);
@@ -1260,15 +1437,13 @@
       border-color: var(--border-strong);
     }
 
-    .st-chip-btn.active-owned {
-      background: var(--accent-emerald);
-      border-color: var(--accent-emerald);
+    .st-chip-btn.active-wish {
+      background: var(--accent-amber);
+      border-color: var(--accent-amber);
       color: #050a14;
     }
 
-    body.theme-simple .st-chip-btn.active-owned {
-      color: #ffffff;
-    }
+    body.theme-simple .st-chip-btn.active-wish { color: #ffffff; }
 
     .st-chip-btn.active-reserved {
       background: var(--accent-purple-deep);
@@ -1276,15 +1451,13 @@
       color: #ffffff;
     }
 
-    .st-chip-btn.active-wish {
-      background: var(--accent-amber);
-      border-color: var(--accent-amber);
+    .st-chip-btn.active-owned {
+      background: var(--accent-emerald);
+      border-color: var(--accent-emerald);
       color: #050a14;
     }
 
-    body.theme-simple .st-chip-btn.active-wish {
-      color: #ffffff;
-    }
+    body.theme-simple .st-chip-btn.active-owned { color: #ffffff; }
 
     .link-action-pill {
       display: inline-flex;
@@ -1299,7 +1472,7 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 4px 9px;
+      padding: 5px 9px;
       font-size: 10.5px;
       font-weight: 800;
       color: var(--accent-cyan);
@@ -1311,7 +1484,7 @@
     }
 
     .btn-url-copy {
-      padding: 4px 7px;
+      padding: 5px 8px;
       border: none;
       border-left: 1px solid var(--border-subtle);
       background: transparent;
@@ -1378,6 +1551,21 @@
       border-radius: var(--radius-lg);
     }
 
+    /* Terminal Footer */
+    .terminal-footer {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px 16px calc(28px + env(safe-area-inset-bottom, 0px));
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
     /* =========================================================================
        9. Modals & Toast Feedback
        ========================================================================= */
@@ -1385,7 +1573,7 @@
       position: fixed;
       inset: 0;
       z-index: 50;
-      background: rgba(3, 7, 18, 0.78);
+      background: rgba(3, 7, 18, 0.80);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       display: flex;
@@ -1505,6 +1693,16 @@
       gap: 7px;
     }
 
+    .pwa-step-card {
+      padding: 11px 13px;
+      border-radius: 11px;
+      background: var(--card-bg-elevated);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
     .modal-foot {
       padding-top: 12px;
       border-top: 1px solid var(--border-subtle);
@@ -1527,24 +1725,24 @@
 
     .toast-popup {
       position: fixed;
-      bottom: 20px;
-      right: 18px;
-      left: 18px;
-      max-width: 410px;
+      bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+      right: 16px;
+      left: 16px;
+      max-width: 420px;
       margin-left: auto;
       z-index: 60;
-      background: #0f172a;
+      background: #0e172a;
       color: #f8fafc;
       border: 1px solid var(--accent-cyan);
       border-radius: 12px;
       padding: 12px 15px;
       font-size: 12.5px;
       font-weight: 700;
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65), 0 0 18px rgba(34, 211, 238, 0.25);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65), 0 0 18px rgba(0, 240, 255, 0.25);
       display: flex;
       align-items: center;
       gap: 9px;
-      transform: translateY(140%);
+      transform: translateY(150%);
       opacity: 0;
       transition: transform 0.25s ease, opacity 0.25s ease;
       pointer-events: none;
@@ -1576,7 +1774,7 @@
         <div class="brand-text-col">
           <div class="terminal-meta-line">
             <span class="terminal-tag">DEVA SECURITY BUREAU // ARCHIVE TERMINAL</span>
-            <button type="button" id="sync-badge" class="sync-status-badge syncing" data-action="open-gas-modal" title="GASスプレッドシート連携設定">
+            <button type="button" id="sync-badge" class="sync-status-badge syncing" data-action="open-gas-modal" title="GASスプレッドシート連携・設定">
               <span class="pulse-dot"></span>
               <span id="sync-text">GAS同期中...</span>
             </button>
@@ -1587,40 +1785,34 @@
       </div>
 
       <div class="header-actions">
-        <!-- Theme Toggle: Cyber (Default) / Simple -->
+        <!-- Theme Switch: Cyber (Default) / Simple -->
         <div class="segmented-pill" role="group" aria-label="テーマ切替">
           <button type="button" id="theme-cyber-btn" class="seg-btn active" data-action="set-theme" data-theme="cyber">サイバー</button>
           <button type="button" id="theme-simple-btn" class="seg-btn" data-action="set-theme" data-theme="simple">シンプル</button>
         </div>
 
-        <!-- Layout Toggle: Card (Default) / List -->
-        <div class="segmented-pill" role="group" aria-label="表示切替">
-          <button type="button" id="layout-card-btn" class="seg-btn active" data-action="set-layout" data-layout="card">カード</button>
-          <button type="button" id="layout-list-btn" class="seg-btn" data-action="set-layout" data-layout="list">リスト</button>
-        </div>
-
         <!-- Sheet Reload -->
-        <button type="button" class="btn-header" data-action="reload-gas" title="スプレッドシートから最新データを取得">
+        <button type="button" class="btn-header" data-action="reload-gas" title="スプレッドシートから最新データを再取得">
           <svg id="reload-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
           </svg>
           <span>シート読込</span>
         </button>
 
-        <!-- GAS Settings -->
-        <button type="button" class="btn-header" data-action="open-gas-modal" title="GAS設定・バックアップ">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        <!-- PWA Install / Guide Button (Automatically hidden when running in standalone mode) -->
+        <button type="button" id="header-pwa-btn" class="btn-pwa-install pwa-only-browser" data-action="install-pwa" title="ホーム画面にアプリとしてインストール">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
           </svg>
-          <span>GAS設定</span>
+          <span>アプリ化</span>
         </button>
 
-        <!-- New Item -->
+        <!-- New Item Button -->
         <button type="button" class="btn-primary-grad" data-action="open-new-modal">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
           </svg>
-          <span>新規登録</span>
+          <span>新規追加</span>
         </button>
       </div>
     </div>
@@ -1643,7 +1835,6 @@
 
           <div class="hud-identity-row" style="margin-top:12px;">
             <div class="cyber-emblem-box" aria-hidden="true">
-              <!-- Custom Geometric Cyber Emblem: Gabriel (Crystalline Shield & Wing Matrix) -->
               <svg width="32" height="32" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="18 3 31 10.5 31 25.5 18 33 5 25.5 5 10.5 18 3"/>
                 <polygon points="18 8 26 18 18 28 10 18 18 8"/>
@@ -1664,7 +1855,7 @@
         <div class="hud-telemetry-panel">
           <div class="hud-mini-stats">
             <div class="hud-stat-cell">
-              <span class="hud-stat-lbl">登録数</span>
+              <span class="hud-stat-lbl">関連数</span>
               <span class="hud-stat-val highlight" id="gab-total">0</span>
             </div>
             <div class="hud-stat-cell">
@@ -1688,7 +1879,7 @@
           <div class="hud-progress-row">
             <div class="progress-track-wrap">
               <div class="progress-caption">
-                <span>COLLECTION RATE (所持+予約)</span>
+                <span>COLLECTION PROGRESS (所持+予約)</span>
                 <span id="gab-rate-text">0%</span>
               </div>
               <div class="progress-track">
@@ -1710,7 +1901,6 @@
 
           <div class="hud-identity-row" style="margin-top:12px;">
             <div class="cyber-emblem-box" aria-hidden="true">
-              <!-- Custom Geometric Cyber Emblem: Raguel (Orbital Sensor & Dual Diamond) -->
               <svg width="32" height="32" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="18" cy="18" r="13"/>
                 <polygon points="18 6 30 18 18 30 6 18 18 6"/>
@@ -1724,7 +1914,7 @@
             <div class="hud-bio-col">
               <h2 class="hud-char-title">ラグエル <span>RAGUEL</span></h2>
               <p class="hud-bio-text">
-                ディーヴァ環境調査局員。ガブリエルと行動を共にするバディ的存在で、明るく親しみやすい性格と高い現場適応力を持つ。
+                環境調査局員。ガブリエルと行動を共にするバディ的存在で、明るく親しみやすい性格と高い現場適応力を持つ。
               </p>
             </div>
           </div>
@@ -1733,7 +1923,7 @@
         <div class="hud-telemetry-panel">
           <div class="hud-mini-stats">
             <div class="hud-stat-cell">
-              <span class="hud-stat-lbl">登録数</span>
+              <span class="hud-stat-lbl">関連数</span>
               <span class="hud-stat-val highlight" id="rag-total">0</span>
             </div>
             <div class="hud-stat-cell">
@@ -1757,7 +1947,7 @@
           <div class="hud-progress-row">
             <div class="progress-track-wrap">
               <div class="progress-caption">
-                <span>COLLECTION RATE (所持+予約)</span>
+                <span>COLLECTION PROGRESS (所持+予約)</span>
                 <span id="rag-rate-text">0%</span>
               </div>
               <div class="progress-track">
@@ -1770,7 +1960,7 @@
       </article>
     </section>
 
-    <!-- Simple Mode Compact Character Summary Bar -->
+    <!-- Simple Mode Compact Character Summary Strip -->
     <section class="simple-char-strip" aria-label="キャラクター別サマリー">
       <div class="simple-pill-group">
         <button type="button" class="simple-char-pill gab" data-action="toggle-char-filter" data-char="ガブリエル">
@@ -1784,7 +1974,7 @@
         </button>
       </div>
       <a href="https://docs.google.com/spreadsheets/d/1nLj5JG-pjOFUP0HNBlukWEddCa249iZrPtBYB5-ARqE/edit" target="_blank" rel="noopener noreferrer" class="simple-char-pill" data-action="external-link" data-url="https://docs.google.com/spreadsheets/d/1nLj5JG-pjOFUP0HNBlukWEddCa249iZrPtBYB5-ARqE/edit">
-        <span>Googleスプレッドシートを開く ↗</span>
+        <span>管理スプレッドシートを開く ↗</span>
       </a>
     </section>
 
@@ -1808,6 +1998,15 @@
         <div class="kpi-sub-val" id="kpi-owned-yen">¥0</div>
       </div>
 
+      <div class="kpi-card wish">
+        <div class="kpi-head">
+          <span>欲しい</span>
+          <span>WISHLIST BUDGET</span>
+        </div>
+        <div class="kpi-main-val" id="kpi-wish-cnt">0件</div>
+        <div class="kpi-sub-val" id="kpi-wish-yen">予算 ¥0</div>
+      </div>
+
       <div class="kpi-card reserved">
         <div class="kpi-head">
           <span>予約済み</span>
@@ -1816,21 +2015,12 @@
         <div class="kpi-main-val" id="kpi-reserved-cnt">0件</div>
         <div class="kpi-sub-val" id="kpi-reserved-yen">¥0</div>
       </div>
-
-      <div class="kpi-card wish">
-        <div class="kpi-head">
-          <span>欲しい / 検討中</span>
-          <span>WISHLIST</span>
-        </div>
-        <div class="kpi-main-val" id="kpi-wish-cnt">0件</div>
-        <div class="kpi-sub-val" id="kpi-wish-yen">¥0</div>
-      </div>
     </section>
 
-    <!-- 3. Filter & Search Control Panel -->
+    <!-- 3. Filter & Search Bar -->
     <section class="control-panel" aria-label="検索・フィルター">
       <div class="control-top-row">
-        <!-- Character Filter Tabs -->
+        <!-- Character Filter Pills -->
         <div class="char-tab-bar" role="group" aria-label="キャラクター区分">
           <button type="button" class="char-tab active" data-action="set-char" data-char="all">すべて</button>
           <button type="button" class="char-tab" data-action="set-char" data-char="ガブリエル">ガブリエル</button>
@@ -1838,7 +2028,7 @@
           <button type="button" class="char-tab" data-action="set-char" data-char="両方・その他">両方・その他</button>
         </div>
 
-        <!-- Search & Sort -->
+        <!-- Search, Sort & Card/List Toggle -->
         <div class="search-sort-group">
           <div class="search-input-box">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
@@ -1847,16 +2037,21 @@
             <input type="text" id="search-input" class="field-input" placeholder="グッズ名・ますこっちょ・メモ・カテゴリで検索...">
           </div>
 
-          <select id="sort-select" class="sort-select" aria-label="並び替え">
+          <select id="sort-select" class="sort-select" aria-label="並び順">
             <option value="sheet">シート登録順</option>
             <option value="newest">新しい順</option>
             <option value="price_desc">価格が高い順</option>
             <option value="price_asc">価格が安い順</option>
           </select>
+
+          <div class="segmented-pill" role="group" aria-label="表示切替">
+            <button type="button" id="layout-card-btn" class="seg-btn active" data-action="set-layout" data-layout="card">カード</button>
+            <button type="button" id="layout-list-btn" class="seg-btn" data-action="set-layout" data-layout="list">リスト</button>
+          </div>
         </div>
       </div>
 
-      <!-- Category Filter Pills (Including ぬいぐるみ) -->
+      <!-- Category Filter Pills -->
       <div class="pill-filter-row" id="category-pills-row" role="group" aria-label="カテゴリ絞り込み">
         <span class="filter-row-label">カテゴリ:</span>
         <button type="button" class="filter-pill active" data-action="set-category" data-category="all">すべて</button>
@@ -1866,16 +2061,15 @@
         <button type="button" class="filter-pill" data-action="set-category" data-category="イベント・コラボ">イベント・コラボ</button>
         <button type="button" class="filter-pill" data-action="set-category" data-category="書籍・画集">書籍・画集</button>
         <button type="button" class="filter-pill" data-action="set-category" data-category="映像・CD">映像・CD</button>
-        <button type="button" class="filter-pill" data-action="set-category" data-category="同人・その他">同人・その他</button>
       </div>
 
       <!-- Status Filter Pills -->
       <div class="pill-filter-row" role="group" aria-label="ステータス絞り込み">
         <span class="filter-row-label">ステータス:</span>
         <button type="button" class="filter-pill active" data-action="set-status" data-status="all">すべて</button>
-        <button type="button" class="filter-pill" data-action="set-status" data-status="所持済み">所持済み</button>
-        <button type="button" class="filter-pill" data-action="set-status" data-status="予約済み">予約済み</button>
         <button type="button" class="filter-pill" data-action="set-status" data-status="欲しい">欲しい</button>
+        <button type="button" class="filter-pill" data-action="set-status" data-status="予約済み">予約済み</button>
+        <button type="button" class="filter-pill" data-action="set-status" data-status="所持済み">所持済み</button>
         <button type="button" class="filter-pill" style="margin-left:auto;" data-action="reset-filters">条件リセット</button>
       </div>
     </section>
@@ -1889,12 +2083,12 @@
           <span class="count-chip" id="filtered-count-badge">37件</span>
         </div>
 
-        <a href="https://docs.google.com/spreadsheets/d/1nLj5JG-pjOFUP0HNBlukWEddCa249iZrPtBYB5-ARqE/edit" target="_blank" rel="noopener noreferrer" class="btn-header" data-action="external-link" data-url="https://docs.google.com/spreadsheets/d/1nLj5JG-pjOFUP0HNBlukWEddCa249iZrPtBYB5-ARqE/edit">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>
-          </svg>
-          <span>管理スプレッドシートを開く</span>
-        </a>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <button type="button" class="btn-header" data-action="open-gas-modal">GAS設定・JSON</button>
+          <a href="https://docs.google.com/spreadsheets/d/1nLj5JG-pjOFUP0HNBlukWEddCa249iZrPtBYB5-ARqE/edit" target="_blank" rel="noopener noreferrer" class="btn-header" data-action="external-link" data-url="https://docs.google.com/spreadsheets/d/1nLj5JG-pjOFUP0HNBlukWEddCa249iZrPtBYB5-ARqE/edit">
+            <span>管理シートを開く ↗</span>
+          </a>
+        </div>
       </div>
 
       <div id="items-container" class="items-grid"></div>
@@ -1907,7 +2101,20 @@
   </main>
 
   <!-- =========================================================================
-       Modal 1: Add / Edit Item (with Text Auto-Parse Helper)
+       Terminal Footer (Includes Browser-Only PWA Install Helper)
+       ========================================================================= -->
+  <footer class="terminal-footer">
+    <span>DEVA ARCHIVE SYSTEM // RAKUEN TSUIHOU MERCHANDISE DB</span>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+      <button type="button" id="footer-pwa-btn" class="btn-pwa-install pwa-only-browser" data-action="install-pwa">
+        <span>📲 Android / iOS ホーム画面アプリ化ガイド</span>
+      </button>
+      <button type="button" class="btn-header" data-action="open-gas-modal">連携設定</button>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       Modal 1: Add / Edit Item
        ========================================================================= -->
   <div id="edit-modal" class="modal-backdrop hidden" data-action="close-backdrop">
     <div class="modal-dialog">
@@ -1920,7 +2127,6 @@
         <input type="hidden" id="inp-id">
         <input type="hidden" id="inp-created">
 
-        <!-- Quick Text Auto-Parse Helper (shown when adding new item) -->
         <div id="quick-parse-section" class="quick-parse-box hidden">
           <div style="display:flex;align-items:center;justify-content:space-between;">
             <span style="font-size:11px;font-weight:800;color:var(--accent-cyan);">告知文・商品テキストから自動入力</span>
@@ -1961,16 +2167,16 @@
           <label class="field-lbl">コレクションステータス</label>
           <div class="radio-status-grid">
             <label class="radio-status-tile">
-              <input type="radio" name="inp-status" value="所持済み">
-              <span>✔ 所持済み</span>
+              <input type="radio" name="inp-status" value="欲しい" checked>
+              <span>★ 欲しい</span>
             </label>
             <label class="radio-status-tile">
               <input type="radio" name="inp-status" value="予約済み">
               <span>⏳ 予約済み</span>
             </label>
             <label class="radio-status-tile">
-              <input type="radio" name="inp-status" value="欲しい" checked>
-              <span>★ 欲しい</span>
+              <input type="radio" name="inp-status" value="所持済み">
+              <span>✔ 所持済み</span>
             </label>
           </div>
         </div>
@@ -2018,7 +2224,47 @@
   </div>
 
   <!-- =========================================================================
-       Modal 2: GAS Settings, Script Copy & JSON Backup
+       Modal 2: PWA Standalone Installation Guide Modal
+       ========================================================================= -->
+  <div id="pwa-modal" class="modal-backdrop hidden" data-action="close-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-head">
+        <h3>📲 ホーム画面にPWAアプリとしてインストール</h3>
+        <button type="button" class="btn-modal-close" data-action="close-pwa-modal" aria-label="閉じる">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin:0;color:var(--text-secondary);">
+          このHTMLファイルにはアプリアイコン・マニフェスト・Service Workerが内蔵されています。HTTPSページ（GitHub Pages等）として開いた状態で以下の操作を行うと、アドレスバーなしの全画面アプリとして起動できます。
+        </p>
+
+        <div class="pwa-step-card">
+          <strong style="color:var(--accent-cyan);">Android（Chrome）の手順</strong>
+          <span style="font-size:12.5px;color:var(--text-secondary);">
+            1. 画面右上のメニューボタン <strong>「⋮」</strong> をタップ<br>
+            2. <strong>「ホーム画面に追加」</strong> をタップ<br>
+            3. 表示されたダイアログで <strong>「インストール」</strong> を選択
+          </span>
+        </div>
+
+        <div class="pwa-step-card">
+          <strong style="color:var(--accent-purple);">iPhone / iPad（Safari）の手順</strong>
+          <span style="font-size:12.5px;color:var(--text-secondary);">
+            1. 画面下の <strong>「共有（□↑）」</strong> ボタンをタップ<br>
+            2. 下へスクロールして <strong>「ホーム画面に追加」</strong> をタップ<br>
+            3. 右上の <strong>「追加」</strong> をタップ
+          </span>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;">
+          <button type="button" id="btn-trigger-native-install" class="btn-primary-grad hidden" data-action="trigger-native-install">今すぐインストールを実行</button>
+          <button type="button" class="btn-header" data-action="close-pwa-modal">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       Modal 3: GAS Settings & JSON Backup
        ========================================================================= -->
   <div id="gas-modal" class="modal-backdrop hidden" data-action="close-backdrop">
     <div class="modal-dialog">
@@ -2028,7 +2274,7 @@
       </div>
       <div class="modal-body">
         <div style="padding:10px 12px;border-radius:10px;background:var(--accent-emerald-soft);border:1px solid rgba(52,211,153,0.32);color:var(--accent-emerald);font-size:12px;">
-          GAS WebアプリURLと連携済みです。カード上のステータス変更・新規登録・編集・削除はGoogleスプレッドシートへ自動送信されます。
+          GAS WebアプリURLと連携済みです。ステータス変更・新規登録・編集・削除はGoogleスプレッドシートへ自動送信されます。
         </div>
 
         <div>
@@ -2055,7 +2301,7 @@
   </div>
 
   <!-- =========================================================================
-       Modal 3: Custom Confirm Dialog (Zero window.confirm)
+       Modal 4: Custom Confirm Dialog (Zero window.confirm)
        ========================================================================= -->
   <div id="confirm-modal" class="modal-backdrop hidden" data-action="close-backdrop">
     <div class="modal-dialog" style="max-width:400px;">
@@ -2081,7 +2327,7 @@
 
   <script>
     // =========================================================================
-    // 1. Constants & Complete 37-Item Built-in Dataset (Synced with Sheet)
+    // 1. Constants & Complete 37-Item Built-in Dataset
     // =========================================================================
     const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbw3ivIO211jexP-SrfH5GNUMivVQ0tru5HLeRoLBVzRXaOo_3G8mIKsaVf2r6sklskkfg/exec";
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1nLj5JG-pjOFUP0HNBlukWEddCa249iZrPtBYB5-ARqE/edit";
@@ -2112,15 +2358,15 @@
       { id: "item_023", title: "劇場来場者特典 第1弾：ガブリエル A5サイズイラストボード", character: "ガブリエル", category: "イベント・コラボ", priceText: "2026年11月13日配布 / 来場者特典", priceNum: 0, status: "所持済み", url: "https://www.aniplex.co.jp/lineup/rakuen-tsuiho-r/", memo: "齋藤将嗣イラスト使用の劇場公開第1週目入場者プレゼント", createdAt: "2026-11-24", source: "手動" },
       { id: "item_024", title: "劇場来場者特典 第2弾：ヴァイスシュヴァルツ特製PRカード（ガブリエル）", character: "ガブリエル", category: "イベント・コラボ", priceText: "2026年11月20日配布 / 来場者特典", priceNum: 0, status: "所持済み", url: "https://www.aniplex.co.jp/lineup/rakuen-tsuiho-r/", memo: "劇場公開第2週目追加来場者特典カード", createdAt: "2026-11-24", source: "手動" },
       { id: "item_025", title: "第四弾ムビチケ前売券 アニメイト限定アクリルスタンド付き（ラグエルA4ビジュアルカード対象弾）", character: "ラグエル", category: "イベント・コラボ", priceText: "発売済み / 2,920円", priceNum: 2920, status: "欲しい", url: "https://www.animate-onlineshop.jp/", memo: "第四弾ムビチケ（通常特典：描き下ろしラグエルA4ビジュアルカード）", createdAt: "2026-11-24", source: "手動" },
-      { id: "item_026", title: "『楽園追放 心のレゾナンス』劇場パンフレット", character: "両方・その他", category: "書籍・画集", priceText: "2026年11月発売 / 2,000円", priceNum: 2000, status: "欲しい", url: "https://store.toei-anim.co.jp/shop/r/r104104/", memo: "劇場公式パンフレット", createdAt: "2026-11-24", source: "手動" },
+      { id: "item_026", title: "『楽園追放 心のレゾナンス』劇場パンフレット", character: "両方・その他", category: "書籍・画集", priceText: "2026年11月発売 / 2,000円", priceNum: 2000, status: "所持済み", url: "https://store.toei-anim.co.jp/shop/r/r104104/", memo: "劇場公式パンフレット", createdAt: "2026-11-24", source: "手動" },
       { id: "item_027", title: "「楽園追放 心のレゾナンス」オリジナルサウンドトラック", character: "両方・その他", category: "映像・CD", priceText: "2026年11月発売 / 3,850円", priceNum: 3850, status: "欲しい", url: "https://store.toei-anim.co.jp/shop/r/r104104/", memo: "劇場版オリジナルサウンドトラックCD", createdAt: "2026-11-24", source: "手動" },
       { id: "item_028", title: "【楽園追放 心のレゾナンス】収納付きガジェットポーチ", character: "両方・その他", category: "アクリル・雑貨", priceText: "2026年11月発売 / 3,300円", priceNum: 3300, status: "欲しい", url: "https://store.toei-anim.co.jp/shop/r/r104104/", memo: "東映アニメーション公式劇場グッズ", createdAt: "2026-11-24", source: "手動" },
       { id: "item_029", title: "【楽園追放 心のレゾナンス】デスクマット 集合", character: "両方・その他", category: "アクリル・雑貨", priceText: "2026年11月発売 / 3,300円", priceNum: 3300, status: "欲しい", url: "https://store.toei-anim.co.jp/shop/r/r104104/", memo: "東映アニメーション公式劇場グッズ", createdAt: "2026-11-24", source: "手動" },
       { id: "item_030", title: "【楽園追放 心のレゾナンス】メタルキーホルダー アーハン", character: "両方・その他", category: "アクリル・雑貨", priceText: "2026年11月発売 / 1,100円", priceNum: 1100, status: "欲しい", url: "https://store.toei-anim.co.jp/shop/r/r104104/", memo: "東映アニメーション公式劇場グッズ", createdAt: "2026-11-24", source: "手動" },
       { id: "item_031", title: "楽園追放 心のレゾナンス ディーヴァ リールキーホルダー（コスパ）", character: "両方・その他", category: "アクリル・雑貨", priceText: "2027年2月下旬発売予定 / 1,980円", priceNum: 1980, status: "欲しい", url: "https://store.kadokawa.co.jp/shop/e/eshi00139/", memo: "コスパ製ディーヴァモチーフアイテム", createdAt: "2026-11-24", source: "手動" },
       { id: "item_032", title: "楽園追放 心のレゾナンス オーロラアートコレクション（全18種）", character: "両方・その他", category: "アクリル・雑貨", priceText: "予約受付中 / 1パック2枚入", priceNum: 0, status: "欲しい", url: "https://www.animate-onlineshop.jp/", memo: "1BOX9パック入りトレーディングカードコレクション", createdAt: "2026-11-24", source: "手動" },
-      { id: "item_033", title: "【楽園追放 心のレゾナンス】ますこっちょ ガブリエル（ぬいぐるみマスコット）", character: "ガブリエル", category: "ぬいぐるみ", priceText: "2026年11月発売 / 1,650円", priceNum: 1650, status: "欲しい", url: "https://www.nanagrass.jp/project/361565a6-39c8-4458-92ea-10cd4ebf10ad", memo: "株式会社ナナグラス製・手のひらサイズぬいぐるみマスコット（約110×70mm / JAN: 4580897240995 / 公式EC: nanagrass.base.shop）", createdAt: "2026-11-25", source: "手動" },
-      { id: "item_034", title: "【楽園追放 心のレゾナンス】ますこっちょ ラグエル（ぬいぐるみマスコット）", character: "ラグエル", category: "ぬいぐるみ", priceText: "2026年11月発売 / 1,650円", priceNum: 1650, status: "欲しい", url: "https://www.nanagrass.jp/project/361565a6-39c8-4458-92ea-10cd4ebf10ad", memo: "株式会社ナナグラス製・手のひらサイズぬいぐるみマスコット（約110×70mm / JAN: 4580897241022 / 公式EC: nanagrass.base.shop）", createdAt: "2026-11-25", source: "手動" },
+      { id: "item_033", title: "【楽園追放 心のレゾナンス】ますこっちょ ガブリエル（ぬいぐるみマスコット）", character: "ガブリエル", category: "ぬいぐるみ", priceText: "2026年11月発売 / 1,650円", priceNum: 1650, status: "所持済み", url: "https://www.nanagrass.jp/project/361565a6-39c8-4458-92ea-10cd4ebf10ad", memo: "株式会社ナナグラス製・手のひらサイズぬいぐるみマスコット（約110×70mm / JAN: 4580897240995 / 公式EC: nanagrass.base.shop）", createdAt: "2026-11-25", source: "手動" },
+      { id: "item_034", title: "【楽園追放 心のレゾナンス】ますこっちょ ラグエル（ぬいぐるみマスコット）", character: "ラグエル", category: "ぬいぐるみ", priceText: "2026年11月発売 / 1,650円", priceNum: 1650, status: "所持済み", url: "https://www.nanagrass.jp/project/361565a6-39c8-4458-92ea-10cd4ebf10ad", memo: "株式会社ナナグラス製・手のひらサイズぬいぐるみマスコット（約110×70mm / JAN: 4580897241022 / 公式EC: nanagrass.base.shop）", createdAt: "2026-11-25", source: "手動" },
       { id: "item_035", title: "【楽園追放 心のレゾナンス】マウスパッド ガブリエル", character: "ガブリエル", category: "アクリル・雑貨", priceText: "2026年11月発売 / 1,320円", priceNum: 1320, status: "欲しい", url: "https://www.nanagrass.jp/project/361565a6-39c8-4458-92ea-10cd4ebf10ad", memo: "株式会社ナナグラス製・ラバーマウスパッド（220×180mm / JAN: 4580897241046 / 公式EC: nanagrass.base.shop）", createdAt: "2026-11-25", source: "手動" },
       { id: "item_036", title: "【楽園追放 心のレゾナンス】マウスパッド ラグエル", character: "ラグエル", category: "アクリル・雑貨", priceText: "2026年11月発売 / 1,320円", priceNum: 1320, status: "欲しい", url: "https://www.nanagrass.jp/project/361565a6-39c8-4458-92ea-10cd4ebf10ad", memo: "株式会社ナナグラス製・ラバーマウスパッド（220×180mm / JAN: 4580897241077 / 公式EC: nanagrass.base.shop）", createdAt: "2026-11-25", source: "手動" },
       { id: "item_037", title: "【楽園追放 心のレゾナンス】フラットポーチ", character: "両方・その他", category: "アクリル・雑貨", priceText: "2026年11月発売 / 1,320円", priceNum: 1320, status: "欲しい", url: "https://www.nanagrass.jp/project/361565a6-39c8-4458-92ea-10cd4ebf10ad", memo: "株式会社ナナグラス製・合皮フラットポーチ（150×200×10mm / JAN: 4580897241039 / 公式EC: nanagrass.base.shop）", createdAt: "2026-11-25", source: "手動" }
@@ -2130,17 +2376,18 @@
     // 2. Application State & Safe Storage Helpers
     // =========================================================================
     const STORAGE_KEYS = {
-      ITEMS: "rakuen_archive_items_v3",
-      GAS_URL: "rakuen_archive_gas_v3",
-      THEME: "rakuen_archive_theme_v3",
-      LAYOUT: "rakuen_archive_layout_v3"
+      ITEMS: "rakuen_archive_items_v4",
+      GAS_URL: "rakuen_archive_gas_v4",
+      THEME: "rakuen_archive_theme_v4",
+      LAYOUT: "rakuen_archive_layout_v4"
     };
 
     let items = [];
     let gasUrl = DEFAULT_GAS_URL;
-    let activeTheme = "cyber"; // "cyber" (default) | "simple"
-    let activeLayout = "card"; // "card" (default) | "list"
+    let activeTheme = "cyber";
+    let activeLayout = "card";
     let pendingConfirmFn = null;
+    let deferredInstallPrompt = null;
 
     const filters = {
       char: "all",
@@ -2195,7 +2442,38 @@
     }
 
     // =========================================================================
-    // 3. Clipboard & Toast Notification
+    // 3. PWA Install Event Handling
+    // =========================================================================
+    window.addEventListener("beforeinstallprompt", e => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      const nativeBtn = document.getElementById("btn-trigger-native-install");
+      if (nativeBtn) nativeBtn.classList.remove("hidden");
+    });
+
+    window.addEventListener("appinstalled", () => {
+      deferredInstallPrompt = null;
+      document.querySelectorAll(".pwa-only-browser").forEach(el => el.classList.add("hidden"));
+      showToast("ホーム画面にPWAアプリとしてインストールされました！");
+    });
+
+    async function handlePwaInstallClick() {
+      if (deferredInstallPrompt) {
+        try {
+          deferredInstallPrompt.prompt();
+          const result = await deferredInstallPrompt.userChoice;
+          if (result && result.outcome === "accepted") {
+            deferredInstallPrompt = null;
+            showToast("アプリのインストールを開始しました");
+          }
+          return;
+        } catch (e) {}
+      }
+      document.getElementById("pwa-modal").classList.remove("hidden");
+    }
+
+    // =========================================================================
+    // 4. Clipboard & Toast Notification
     // =========================================================================
     function copyTextToClipboard(text, toastMsg) {
       if (!text) return;
@@ -2234,7 +2512,7 @@
     }
 
     // =========================================================================
-    // 4. GAS Spreadsheet Bidirectional Sync (GET & POST)
+    // 5. GAS Spreadsheet Bidirectional Sync
     // =========================================================================
     function setSyncBadge(state, label) {
       const badge = document.getElementById("sync-badge");
@@ -2263,7 +2541,6 @@
 
         if (data && data.status === "ok" && Array.isArray(data.items) && data.items.length > 0) {
           const remoteItems = data.items.map(normalizeItem);
-          // Merge any built-in items that might not be in remote yet, preserving remote status/edits
           const remoteMap = new Map(remoteItems.map(it => [it.id, it]));
           for (const b of BUILTIN_ITEMS) {
             if (!remoteMap.has(b.id)) {
@@ -2298,7 +2575,7 @@
     }
 
     // =========================================================================
-    // 5. Theme & Layout Switchers
+    // 6. Theme & Layout Switchers
     // =========================================================================
     function setTheme(theme) {
       activeTheme = theme === "simple" ? "simple" : "cyber";
@@ -2317,7 +2594,7 @@
     }
 
     // =========================================================================
-    // 6. Telemetry, Category Counts & Archive Rendering
+    // 7. HUD Stats, Category Counts & Archive Rendering
     // =========================================================================
     function renderAll() {
       updateStatsAndHud();
@@ -2394,17 +2671,17 @@
 
       // 4 KPI Cards
       document.getElementById("kpi-total-cnt").textContent = `${items.length}件`;
-      document.getElementById("kpi-total-yen").textContent = `全登録総額 ¥${totalYen.toLocaleString()}`;
+      document.getElementById("kpi-total-yen").textContent = `総額 ¥${totalYen.toLocaleString()}`;
       document.getElementById("kpi-both-note").textContent = `両方・他 ${bothTotal}件`;
 
       document.getElementById("kpi-owned-cnt").textContent = `${ownedCnt}件`;
       document.getElementById("kpi-owned-yen").textContent = `¥${ownedYen.toLocaleString()}`;
 
+      document.getElementById("kpi-wish-cnt").textContent = `${wishCnt}件`;
+      document.getElementById("kpi-wish-yen").textContent = `予算 ¥${wishYen.toLocaleString()}`;
+
       document.getElementById("kpi-reserved-cnt").textContent = `${reservedCnt}件`;
       document.getElementById("kpi-reserved-yen").textContent = `¥${reservedYen.toLocaleString()}`;
-
-      document.getElementById("kpi-wish-cnt").textContent = `${wishCnt}件`;
-      document.getElementById("kpi-wish-yen").textContent = `¥${wishYen.toLocaleString()}`;
     }
 
     function updateCategoryPillCounts() {
@@ -2510,9 +2787,9 @@
 
           <div class="card-footer">
             <div class="status-switch-group">
-              <button type="button" class="st-chip-btn ${st === "所持済み" ? "active-owned" : ""}" data-action="set-item-status" data-id="${escapeHtml(it.id)}" data-status="所持済み">所持済み</button>
-              <button type="button" class="st-chip-btn ${st === "予約済み" ? "active-reserved" : ""}" data-action="set-item-status" data-id="${escapeHtml(it.id)}" data-status="予約済み">予約済み</button>
               <button type="button" class="st-chip-btn ${st === "欲しい" ? "active-wish" : ""}" data-action="set-item-status" data-id="${escapeHtml(it.id)}" data-status="欲しい">欲しい</button>
+              <button type="button" class="st-chip-btn ${st === "予約済み" ? "active-reserved" : ""}" data-action="set-item-status" data-id="${escapeHtml(it.id)}" data-status="予約済み">予約済み</button>
+              <button type="button" class="st-chip-btn ${st === "所持済み" ? "active-owned" : ""}" data-action="set-item-status" data-id="${escapeHtml(it.id)}" data-status="所持済み">所持済み</button>
             </div>
 
             ${url ? `
@@ -2553,9 +2830,9 @@
           </div>
 
           <div class="list-item-controls">
-            <button type="button" class="st-chip-btn ${st === "所持済み" ? "active-owned" : ""}" data-action="set-item-status" data-id="${escapeHtml(it.id)}" data-status="所持済み">所持済み</button>
-            <button type="button" class="st-chip-btn ${st === "予約済み" ? "active-reserved" : ""}" data-action="set-item-status" data-id="${escapeHtml(it.id)}" data-status="予約済み">予約済み</button>
             <button type="button" class="st-chip-btn ${st === "欲しい" ? "active-wish" : ""}" data-action="set-item-status" data-id="${escapeHtml(it.id)}" data-status="欲しい">欲しい</button>
+            <button type="button" class="st-chip-btn ${st === "予約済み" ? "active-reserved" : ""}" data-action="set-item-status" data-id="${escapeHtml(it.id)}" data-status="予約済み">予約済み</button>
+            <button type="button" class="st-chip-btn ${st === "所持済み" ? "active-owned" : ""}" data-action="set-item-status" data-id="${escapeHtml(it.id)}" data-status="所持済み">所持済み</button>
             <button type="button" class="btn-edit-icon" data-action="edit-item" data-id="${escapeHtml(it.id)}">編集</button>
             ${url ? `
               <div class="link-action-pill">
@@ -2575,7 +2852,7 @@
     }
 
     // =========================================================================
-    // 7. Filter Actions & Item CRUD / Auto-Parse
+    // 8. Filter Actions & Item CRUD
     // =========================================================================
     function applyCharFilter(charVal) {
       filters.char = charVal;
@@ -2676,13 +2953,9 @@
         return;
       }
 
-      // Extract URL if present
       const urlMatch = raw.match(/https?:\/\/[^\s"'<>]+/i);
-      if (urlMatch) {
-        document.getElementById("inp-url").value = urlMatch[0];
-      }
+      if (urlMatch) document.getElementById("inp-url").value = urlMatch[0];
 
-      // Extract price in yen
       const priceMatch = raw.match(/([0-9,]{3,7})\s*円/);
       const numPrice = priceMatch ? parseInt(priceMatch[1].replace(/,/g, ""), 10) : 0;
       if (numPrice > 0) {
@@ -2690,14 +2963,12 @@
         document.getElementById("inp-price-text").value = `税込 ${numPrice.toLocaleString()}円`;
       }
 
-      // Detect character
       const hasGab = raw.includes("ガブリエル");
       const hasRag = raw.includes("ラグエル");
       if (hasGab && !hasRag) document.getElementById("inp-char").value = "ガブリエル";
       else if (hasRag && !hasGab) document.getElementById("inp-char").value = "ラグエル";
       else document.getElementById("inp-char").value = "両方・その他";
 
-      // Detect category
       if (/ぬいぐるみ|ますこっちょ|おてだま|マスコット|ぬい/.test(raw)) {
         document.getElementById("inp-cat").value = "ぬいぐるみ";
       } else if (/フィギュア|PLAMATEA|Hyper Body|ねんどろいど|スケール/.test(raw)) {
@@ -2712,11 +2983,8 @@
         document.getElementById("inp-cat").value = "アクリル・雑貨";
       }
 
-      // Use first meaningful line as title
       const firstLine = raw.split(/\r?\n/).map(l => l.trim()).find(l => l && !l.startsWith("http"));
-      if (firstLine) {
-        document.getElementById("inp-title").value = firstLine.slice(0, 120);
-      }
+      if (firstLine) document.getElementById("inp-title").value = firstLine.slice(0, 120);
       document.getElementById("inp-memo").value = raw.replace(/https?:\/\/[^\s"'<>]+/gi, "").trim().slice(0, 260);
       document.getElementById("inp-source").value = "AI抽出";
       showToast("テキストから項目を自動入力しました");
@@ -2731,13 +2999,14 @@
 
     function closeAllModals() {
       document.getElementById("edit-modal").classList.add("hidden");
+      document.getElementById("pwa-modal").classList.add("hidden");
       document.getElementById("gas-modal").classList.add("hidden");
       document.getElementById("confirm-modal").classList.add("hidden");
       pendingConfirmFn = null;
     }
 
     // =========================================================================
-    // 8. Global Event Delegation (Safe against any special characters in data)
+    // 9. Global Event Delegation
     // =========================================================================
     document.addEventListener("click", e => {
       const target = e.target.closest("[data-action]");
@@ -2759,6 +3028,15 @@
           break;
         case "reload-gas":
           syncFromGas(false);
+          break;
+        case "install-pwa":
+          handlePwaInstallClick();
+          break;
+        case "trigger-native-install":
+          handlePwaInstallClick();
+          break;
+        case "close-pwa-modal":
+          document.getElementById("pwa-modal").classList.add("hidden");
           break;
         case "open-gas-modal":
           document.getElementById("gas-url-field").value = gasUrl;
@@ -2867,10 +3145,15 @@
     });
 
     // =========================================================================
-    // 9. Boot Initialization
+    // 10. Boot Initialization
     // =========================================================================
     document.addEventListener("DOMContentLoaded", () => {
-      // Restore saved theme & layout
+      // Hide PWA buttons if already running in standalone mode
+      const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+      if (isStandalone) {
+        document.querySelectorAll(".pwa-only-browser").forEach(el => el.classList.add("hidden"));
+      }
+
       const savedTheme = safeGetItem(STORAGE_KEYS.THEME);
       if (savedTheme === "simple" || savedTheme === "cyber") setTheme(savedTheme);
 
@@ -2880,7 +3163,6 @@
       const savedGas = safeGetItem(STORAGE_KEYS.GAS_URL);
       if (savedGas && /^https?:\/\//i.test(savedGas)) gasUrl = savedGas;
 
-      // Load items (and seamlessly ensure all 37 built-in records exist)
       const cached = safeGetItem(STORAGE_KEYS.ITEMS);
       if (cached) {
         try {
@@ -2900,7 +3182,6 @@
 
       renderAll();
 
-      // Search & Sort input listeners
       document.getElementById("search-input").addEventListener("input", e => {
         filters.keyword = e.target.value.trim();
         renderItemsList();
@@ -2911,7 +3192,6 @@
         renderItemsList();
       });
 
-      // Item Form Submit
       document.getElementById("item-form").addEventListener("submit", e => {
         e.preventDefault();
         const id = document.getElementById("inp-id").value;
@@ -2948,7 +3228,6 @@
         pushItemToGas({ action: "upsert", item: record });
       });
 
-      // JSON File Import listener
       document.getElementById("json-file-input").addEventListener("change", e => {
         const file = e.target.files[0];
         if (!file) return;
@@ -2971,7 +3250,7 @@
         reader.readAsText(file);
       });
 
-      // Background GAS sync on load
+      // Background GAS sync on startup
       syncFromGas(true);
     });
   </script>
