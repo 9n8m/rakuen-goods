@@ -143,6 +143,10 @@
       --st-wish-soft: rgba(255, 42, 133, 0.16);
       --st-wish-border: rgba(255, 42, 133, 0.5);
 
+      --st-consider: #38bdf8;
+      --st-consider-soft: rgba(56, 189, 248, 0.16);
+      --st-consider-border: rgba(56, 189, 248, 0.46);
+
       --st-passed: #64748b;
       --st-passed-soft: rgba(100, 116, 139, 0.18);
       --st-passed-border: rgba(100, 116, 139, 0.38);
@@ -191,6 +195,10 @@
       --st-wish-soft: #ffe4e6;
       --st-wish-border: rgba(225, 29, 72, 0.4);
 
+      --st-consider: #0284c7;
+      --st-consider-soft: #e0f2fe;
+      --st-consider-border: rgba(2, 132, 199, 0.36);
+
       --st-passed: #475569;
       --st-passed-soft: #f1f5f9;
       --st-passed-border: #cbd5e1;
@@ -236,6 +244,10 @@
       --st-wish: #f472b6;
       --st-wish-soft: rgba(244, 114, 182, 0.15);
       --st-wish-border: rgba(244, 114, 182, 0.38);
+
+      --st-consider: #60a5fa;
+      --st-consider-soft: rgba(96, 165, 250, 0.15);
+      --st-consider-border: rgba(96, 165, 250, 0.36);
 
       --st-passed: #6b7280;
       --st-passed-soft: rgba(107, 114, 128, 0.18);
@@ -713,25 +725,26 @@
     }
 
     /* =========================================================================
-       6. KPI Grids
+       6. KPI Grids (7 Cards: Total + 5 Statuses + Active Budget)
        ========================================================================= */
-    .kpi-grid-6 {
+    .kpi-grid-7 {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 6px;
     }
 
-    @media (min-width: 1024px) {
-      .kpi-grid-6 {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-        gap: 10px;
+    @media (min-width: 640px) {
+      .kpi-grid-7 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
       }
     }
 
-    .kpi-grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
+    @media (min-width: 1080px) {
+      .kpi-grid-7 {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 10px;
+      }
     }
 
     .kpi-card {
@@ -749,247 +762,194 @@
     .kpi-card.c-owned { border-left: 3px solid var(--st-owned); }
     .kpi-card.c-reserved { border-left: 3px solid var(--st-reserved); }
     .kpi-card.c-wish { border-left: 3px solid var(--st-wish); }
-    .kpi-card.c-pink { border-left: 3px solid var(--accent-pink); }
+    .kpi-card.c-consider { border-left: 3px solid var(--st-consider); }
+    .kpi-card.c-passed { border-left: 3px solid var(--st-passed); }
 
-    .kpi-title {
+    .kpi-lbl {
       font-size: 10px;
       font-weight: 800;
-      color: var(--text-sub);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      color: var(--text-muted);
     }
 
     .kpi-val {
       font-family: var(--font-mono);
-      font-size: clamp(13px, 3.6vw, 17px);
+      font-size: 16px;
       font-weight: 800;
-      line-height: 1.25;
       color: var(--text-main);
     }
 
-    .kpi-card.c-cyan .kpi-val { color: var(--accent-cyan); }
-    .kpi-card.c-owned .kpi-val { color: var(--st-owned); }
-    .kpi-card.c-reserved .kpi-val { color: var(--st-reserved); }
-    .kpi-card.c-wish .kpi-val { color: var(--st-wish); }
-    .kpi-card.c-pink .kpi-val { color: var(--accent-pink); }
-
     .kpi-sub {
-      font-size: 9.5px;
-      font-weight: 700;
+      font-family: var(--font-mono);
+      font-size: 10px;
       color: var(--text-muted);
     }
 
     /* =========================================================================
-       7. Filter & Search Control Box
+       7. Filter Panel & Chips
        ========================================================================= */
-    .ctrl-box {
+    .panel-box {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 15px;
-      padding: 10px 11px;
+      border-radius: 14px;
+      padding: 11px;
+      box-shadow: var(--shadow-card);
       display: flex;
       flex-direction: column;
       gap: 9px;
-      box-shadow: var(--shadow-card);
     }
 
-    .search-row {
+    .filter-top-row {
       display: flex;
-      align-items: center;
+      flex-wrap: wrap;
       gap: 7px;
+      align-items: center;
     }
 
-    .search-wrap {
-      position: relative;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .input-box {
-      width: 100%;
-      min-height: 40px;
-      padding: 8px 12px;
+    .search-input {
+      flex: 2 1 180px;
+      min-height: 38px;
+      padding: 0 11px;
       border-radius: 10px;
       border: 1px solid var(--border-subtle);
       background: var(--bg-input);
       color: var(--text-main);
       font-size: 13px;
+    }
+
+    .search-input:focus, .ctrl-select:focus, .form-input:focus, .form-select:focus, .form-textarea:focus {
       outline: none;
-    }
-
-    .input-box:focus {
       border-color: var(--accent-cyan);
     }
 
-    .search-wrap .input-box {
-      padding-right: 38px;
-    }
-
-    .clear-btn {
-      position: absolute;
-      right: 2px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 36px;
-      height: 36px;
-      border: none;
-      border-radius: 8px;
-      background: transparent;
-      color: var(--text-muted);
-      font-size: 16px;
-      font-weight: 800;
-    }
-
-    .btn-primary {
-      min-height: 40px;
-      padding: 0 13px;
-      border-radius: 10px;
-      border: 1px solid var(--accent-cyan-border);
-      background: linear-gradient(135deg, #06b6d4 0%, #2563eb 52%, #ff2a85 100%);
-      color: #ffffff;
-      font-size: 12px;
-      font-weight: 800;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    body:not(.theme-deva) .btn-primary {
-      background: var(--accent-cyan);
-      border-color: var(--accent-cyan);
-      color: #ffffff;
-    }
-
-    body.theme-dark .btn-primary {
-      color: #0f172a;
-    }
-
-    .btn-ghost {
+    .ctrl-select {
+      flex: 1 1 120px;
       min-height: 38px;
-      padding: 0 11px;
+      padding: 0 9px;
       border-radius: 10px;
       border: 1px solid var(--border-subtle);
-      background: var(--bg-elevated);
-      color: var(--text-sub);
-      font-size: 11.5px;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      white-space: nowrap;
-    }
-
-    .btn-ghost:hover {
-      border-color: var(--accent-cyan);
+      background: var(--bg-input);
       color: var(--text-main);
+      font-size: 12px;
+      font-weight: 700;
     }
 
-    .pill-row {
+    .chip-row {
       display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
       align-items: center;
-      gap: 6px;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding-bottom: 2px;
-      -webkit-overflow-scrolling: touch;
     }
 
-    .pill-label {
-      font-size: 10.5px;
-      font-weight: 800;
-      color: var(--text-muted);
-      flex-shrink: 0;
-    }
-
-    .pill-btn {
-      min-height: 36px;
-      padding: 5px 11px;
+    .chip-btn {
+      min-height: 32px;
+      padding: 0 10px;
       border-radius: 999px;
       border: 1px solid var(--border-subtle);
       background: var(--bg-elevated);
       color: var(--text-sub);
       font-size: 11px;
-      font-weight: 700;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    body.theme-deva .pill-btn.active {
-      background: linear-gradient(135deg, rgba(0, 229, 255, 0.24), rgba(255, 42, 133, 0.24));
-      border-color: var(--accent-cyan);
-      color: var(--text-main);
-    }
-
-    body.theme-light .pill-btn.active {
-      background: #0f172a;
-      border-color: #0f172a;
-      color: #ffffff;
-    }
-
-    body.theme-dark .pill-btn.active {
-      background: var(--accent-cyan-soft);
-      border-color: var(--accent-cyan);
-      color: var(--accent-cyan);
-    }
-
-    .select-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .select-box {
-      min-height: 38px;
-      padding: 0 10px;
-      border-radius: 10px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-input);
-      color: var(--text-main);
-      font-size: 11.5px;
-      font-weight: 700;
-      flex: 1 1 120px;
-    }
-
-    .view-toggle {
-      display: inline-flex;
-      padding: 2px;
-      border-radius: 10px;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-    }
-
-    .view-btn {
-      min-height: 36px;
-      padding: 0 11px;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--text-muted);
-      font-size: 11.5px;
       font-weight: 800;
+      white-space: nowrap;
     }
 
-    .view-btn.active {
+    .chip-btn.active {
       background: var(--accent-cyan-soft);
       border-color: var(--accent-cyan-border);
       color: var(--accent-cyan);
     }
 
-    body.theme-light .view-btn.active {
+    body.theme-light .chip-btn.active {
       background: #0f172a;
       border-color: #0f172a;
       color: #ffffff;
     }
 
+    .filter-foot-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 7px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .add-btn {
+      min-height: 38px;
+      padding: 0 13px;
+      border-radius: 10px;
+      border: 1px solid var(--accent-cyan-border);
+      background: var(--accent-cyan-soft);
+      color: var(--accent-cyan);
+      font-size: 12px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    body.theme-light .add-btn {
+      background: #0284c7;
+      border-color: #0284c7;
+      color: #ffffff;
+    }
+
     /* =========================================================================
-       8. Thumbnails (Image + Proxy + Character-Colored SVG Fallback)
+       8. Item Cards & 5-Status Quick Switcher
        ========================================================================= */
+    .items-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 11px;
+    }
+
+    @media (min-width: 640px) {
+      .items-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .items-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .item-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-card);
+      transition: border-color 0.14s ease;
+    }
+
+    .item-card:hover {
+      border-color: var(--border-strong);
+    }
+
+    .item-card.is-passed {
+      opacity: 0.62;
+    }
+
+    .thumb-wrap {
+      position: relative;
+      width: 100%;
+      height: 164px;
+      background: var(--bg-thumb);
+      border-bottom: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+
     .thumb-fallback {
       position: absolute;
       inset: 0;
@@ -997,31 +957,11 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      padding: 6px;
-      text-align: center;
-      background: radial-gradient(circle at 50% 45%, var(--t-soft, rgba(0, 229, 255, 0.16)) 0%, var(--bg-thumb) 85%);
-      color: var(--t-color, var(--accent-cyan));
-      user-select: none;
-    }
-
-    .thumb-tag {
+      gap: 5px;
+      color: var(--text-muted);
       font-family: var(--font-mono);
-      font-size: 9px;
-      font-weight: 800;
-      padding: 1px 6px;
-      border-radius: 4px;
-      background: rgba(6, 9, 19, 0.65);
-      border: 1px solid var(--t-border, rgba(0, 229, 255, 0.36));
-      color: var(--t-color, var(--accent-cyan));
-      max-width: 92%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    body.theme-light .thumb-tag {
-      background: rgba(255, 255, 255, 0.9);
+      font-size: 10.5px;
+      font-weight: 700;
     }
 
     .thumb-img {
@@ -1034,517 +974,346 @@
       display: block;
     }
 
-    .card-banner {
-      position: relative;
-      width: 100%;
-      height: 140px;
-      background: var(--bg-thumb);
-      border-bottom: 1px solid var(--border-subtle);
-      overflow: hidden;
-    }
-
-    .banner-top {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      right: 8px;
-      z-index: 4;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 6px;
-      pointer-events: none;
-    }
-
-    .banner-char {
-      pointer-events: auto;
-      padding: 4px 9px;
-      border-radius: 8px;
-      font-size: 11px;
-      font-weight: 800;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-    }
-
-    .banner-btns {
-      pointer-events: auto;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .btn-edit {
-      min-height: 38px;
-      padding: 0 11px;
-      border-radius: 9px;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      background: rgba(15, 23, 42, 0.85);
-      color: #f8fafc;
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .btn-del {
-      min-width: 38px;
-      min-height: 38px;
-      width: 38px;
-      height: 38px;
-      padding: 0;
-      border-radius: 9px;
-      border: 1px solid rgba(251, 113, 133, 0.7);
-      background: rgba(190, 18, 60, 0.92);
-      color: #ffffff;
-      font-size: 14px;
-      font-weight: 900;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .btn-del:hover {
-      background: #e11d48;
-    }
-
-    .list-thumb {
-      position: relative;
-      width: 54px;
-      height: 54px;
-      border-radius: 10px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-thumb);
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .news-thumb {
-      position: relative;
-      width: 88px;
-      height: 68px;
-      border-radius: 10px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-thumb);
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    /* =========================================================================
-       9. Goods & News Cards
-       ========================================================================= */
-    .list-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 9px;
-    }
-
-    .list-bar-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .accent-line {
-      width: 4px;
-      height: 18px;
-      border-radius: 4px;
-      background: linear-gradient(180deg, var(--accent-cyan), var(--accent-pink));
-    }
-
-    .list-bar-left h2 {
-      margin: 0;
-      font-size: 14.5px;
-      font-weight: 800;
-    }
-
-    .count-pill {
-      padding: 2px 9px;
-      border-radius: 999px;
-      background: var(--accent-cyan-soft);
-      border: 1px solid var(--accent-cyan-border);
-      color: var(--accent-cyan);
-      font-family: var(--font-mono);
-      font-size: 11.5px;
-      font-weight: 800;
-    }
-
-    .cards-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 11px;
-    }
-
-    @media (min-width: 640px) {
-      .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (min-width: 1024px) {
-      .cards-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    }
-
-    .cards-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .g-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-    }
-
-    .g-card.st-owned { border-color: var(--st-owned-border); }
-    .g-card.st-reserved { border-color: var(--st-reserved-border); }
-    .g-card.st-wish { border-color: var(--st-wish-border); }
-    .g-card.st-passed { opacity: 0.56; }
-
-    .g-body {
+    .card-body {
       padding: 11px 12px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      min-width: 0;
+      gap: 7px;
+      flex: 1;
     }
 
     .badge-row {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
 
-    .tag-badge {
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       padding: 2px 7px;
       border-radius: 6px;
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 800;
-      background: var(--bg-elevated);
       border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
       color: var(--text-sub);
     }
 
-    .tag-badge.mono {
+    .badge.mono {
       font-family: var(--font-mono);
-      font-size: 9.5px;
       color: var(--text-muted);
     }
 
-    .tag-badge.type {
-      background: var(--accent-cyan-soft);
-      border-color: var(--accent-cyan-border);
-      color: var(--accent-cyan);
+    .badge.st-owned {
+      background: var(--st-owned-soft);
+      border-color: var(--st-owned-border);
+      color: var(--st-owned);
     }
 
-    .tag-badge.hidden-flag {
-      background: var(--danger-soft);
-      border-color: var(--danger-border);
-      color: var(--danger);
+    .badge.st-reserved {
+      background: var(--st-reserved-soft);
+      border-color: var(--st-reserved-border);
+      color: var(--st-reserved);
     }
 
-    .g-title {
+    .badge.st-wish {
+      background: var(--st-wish-soft);
+      border-color: var(--st-wish-border);
+      color: var(--st-wish);
+    }
+
+    .badge.st-consider {
+      background: var(--st-consider-soft);
+      border-color: var(--st-consider-border);
+      color: var(--st-consider);
+    }
+
+    .badge.st-passed {
+      background: var(--st-passed-soft);
+      border-color: var(--st-passed-border);
+      color: var(--st-passed);
+    }
+
+    .char-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .item-title {
       margin: 0;
       font-size: 13.5px;
       font-weight: 800;
       line-height: 1.42;
       color: var(--text-main);
       overflow-wrap: anywhere;
-      word-break: break-word;
     }
 
-    .price-box {
+    .item-title a:hover {
+      color: var(--accent-cyan);
+      text-decoration: underline;
+    }
+
+    .price-row {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 6px;
-      padding: 6px 9px;
+      gap: 8px;
+      padding: 5px 9px;
       border-radius: 8px;
-      background: var(--bg-elevated);
+      background: var(--bg-input);
       border: 1px solid var(--border-subtle);
-      font-size: 11px;
+      font-size: 11.5px;
+      color: var(--text-sub);
     }
 
-    .price-yen {
+    .price-val {
       font-family: var(--font-mono);
       font-weight: 800;
-      color: var(--st-owned);
+      color: var(--accent-cyan);
     }
 
-    .g-memo {
+    .item-memo {
       margin: 0;
-      font-size: 11px;
+      font-size: 11.5px;
       color: var(--text-muted);
       line-height: 1.45;
       overflow-wrap: anywhere;
-      word-break: break-word;
     }
 
-    .g-foot {
-      padding: 9px 12px;
-      background: rgba(6, 9, 19, 0.35);
+    .card-footer {
+      padding: 9px 12px 11px;
+      background: var(--bg-input);
       border-top: 1px solid var(--border-subtle);
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 8px;
     }
 
-    body:not(.theme-deva) .g-foot {
-      background: var(--bg-elevated);
-    }
-
-    .st-grid-4 {
+    /* 5-Status Quick Switcher */
+    .status-group-5 {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 4px;
     }
 
-    .st-btn {
-      min-height: 38px;
+    .st-pill {
+      min-height: 32px;
       padding: 0 2px;
-      border-radius: 8px;
+      border-radius: 7px;
       border: 1px solid var(--border-subtle);
       background: var(--bg-card);
       color: var(--text-muted);
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 800;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .st-btn.on-owned { background: var(--st-owned); border-color: var(--st-owned); color: #060913; }
-    body.theme-light .st-btn.on-owned { color: #ffffff; }
-    .st-btn.on-reserved { background: var(--st-reserved); border-color: var(--st-reserved); color: #060913; }
-    body.theme-light .st-btn.on-reserved { color: #ffffff; }
-    .st-btn.on-wish { background: var(--st-wish); border-color: var(--st-wish); color: #ffffff; }
-    .st-btn.on-passed { background: var(--st-passed); border-color: var(--st-passed); color: #ffffff; }
+    .st-pill:hover {
+      border-color: var(--border-strong);
+      color: var(--text-main);
+    }
 
-    .link-row {
+    .st-pill.active-owned {
+      background: var(--st-owned-soft);
+      border-color: var(--st-owned-border);
+      color: var(--st-owned);
+    }
+
+    .st-pill.active-reserved {
+      background: var(--st-reserved-soft);
+      border-color: var(--st-reserved-border);
+      color: var(--st-reserved);
+    }
+
+    .st-pill.active-wish {
+      background: var(--st-wish-soft);
+      border-color: var(--st-wish-border);
+      color: var(--st-wish);
+    }
+
+    .st-pill.active-consider {
+      background: var(--st-consider-soft);
+      border-color: var(--st-consider-border);
+      color: var(--st-consider);
+    }
+
+    .st-pill.active-passed {
+      background: var(--st-passed-soft);
+      border-color: var(--st-passed-border);
+      color: var(--st-passed);
+    }
+
+    .card-actions-bar {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 6px;
     }
 
-    .ext-link {
-      min-height: 38px;
-      padding: 0 11px;
-      border-radius: 8px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-card);
-      color: var(--accent-cyan);
-      font-size: 11px;
+    .link-ext {
+      font-size: 11.5px;
       font-weight: 800;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      color: var(--accent-cyan);
     }
 
-    /* List Mode Row */
-    .l-row {
+    .link-ext:hover {
+      text-decoration: underline;
+    }
+
+    .mini-btn {
+      min-height: 30px;
+      padding: 0 9px;
+      border-radius: 7px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      color: var(--text-sub);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .mini-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--text-main);
+    }
+
+    .mini-btn.danger {
+      background: var(--danger-soft);
+      border-color: var(--danger-border);
+      color: var(--danger);
+    }
+
+    /* Simple List Row */
+    .simple-row {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: 12px;
-      padding: 10px 11px;
+      padding: 9px 11px;
       display: flex;
       flex-direction: column;
       gap: 8px;
       box-shadow: var(--shadow-card);
     }
 
-    .l-row.st-passed { opacity: 0.56; }
-
     @media (min-width: 900px) {
-      .l-row {
+      .simple-row {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
       }
     }
 
-    .l-left {
+    .simple-left {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 10px;
       min-width: 0;
       flex: 1;
     }
 
-    .l-main {
-      min-width: 0;
-      flex: 1;
+    .simple-thumb {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      background: var(--bg-thumb);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      flex-shrink: 0;
     }
 
-    .l-actions {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .l-st-4 {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 4px;
-      flex: 1 1 220px;
-    }
-
-    /* =========================================================================
-       10. News Subtabs & Cards
-       ========================================================================= */
-    .subtabs-grid {
+    /* News Subtabs & Cards */
+    .news-subtabs {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 6px;
-      padding: 4px;
-      border-radius: 12px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
     }
 
-    .subtab-btn {
-      min-height: 42px;
-      padding: 6px 8px;
-      border-radius: 9px;
-      border: 1px solid transparent;
-      background: var(--bg-elevated);
-      color: var(--text-sub);
-      font-size: 11.5px;
+    .news-sub-btn {
+      min-height: 38px;
+      padding: 0 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 12px;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
-    }
-
-    .subtab-btn.active-goods {
-      background: var(--accent-pink-soft);
-      border-color: var(--accent-pink);
-      color: var(--text-main);
-    }
-
-    .subtab-btn.active-other {
-      background: var(--accent-cyan-soft);
-      border-color: var(--accent-cyan);
-      color: var(--text-main);
-    }
-
-    .check-pill {
-      min-height: 40px;
-      padding: 6px 10px;
-      border-radius: 10px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-elevated);
-      color: var(--text-sub);
-      font-size: 11px;
-      font-weight: 800;
-      display: inline-flex;
-      align-items: center;
       gap: 6px;
-      white-space: nowrap;
-      cursor: pointer;
+    }
+
+    .news-sub-btn.active {
+      background: var(--accent-cyan-soft);
+      border-color: var(--accent-cyan-border);
+      color: var(--accent-cyan);
+    }
+
+    body.theme-light .news-sub-btn.active {
+      background: #0f172a;
+      border-color: #0f172a;
+      color: #ffffff;
     }
 
     .news-split {
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      min-width: 0;
     }
 
-    .news-info {
-      min-width: 0;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .news-actions {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-promote {
-      min-height: 38px;
-      padding: 0 10px;
+    .news-thumb {
+      position: relative;
+      width: 84px;
+      height: 64px;
       border-radius: 8px;
-      border: 1px solid var(--accent-pink-border);
-      background: var(--accent-pink-soft);
-      color: var(--accent-pink);
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .btn-move {
-      min-height: 38px;
-      padding: 0 10px;
-      border-radius: 8px;
-      border: 1px solid var(--accent-cyan-border);
-      background: var(--accent-cyan-soft);
-      color: var(--accent-cyan);
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .btn-hide {
-      min-height: 38px;
-      padding: 0 10px;
-      border-radius: 8px;
+      background: var(--bg-thumb);
       border: 1px solid var(--border-subtle);
-      background: var(--bg-card);
-      color: var(--text-muted);
-      font-size: 11px;
-      font-weight: 800;
-      margin-left: auto;
+      overflow: hidden;
+      flex-shrink: 0;
     }
 
     /* =========================================================================
-       11. Modals (Strictly hidden & pointer-events: none until .open)
+       9. Modals & Toast
        ========================================================================= */
-    .modal-backdrop {
+    .modal-overlay {
       display: none;
       pointer-events: none;
       position: fixed;
       inset: 0;
       z-index: 50;
-      background: rgba(3, 7, 18, 0.85);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: rgba(3, 6, 15, 0.78);
+      backdrop-filter: blur(6px);
       align-items: center;
       justify-content: center;
       padding: 14px;
       overflow-y: auto;
     }
 
-    .modal-backdrop.open {
+    .modal-overlay.open {
       display: flex;
       pointer-events: auto;
     }
 
     .modal-box {
       width: 100%;
-      max-width: 500px;
+      max-width: 520px;
       background: var(--bg-card);
-      border: 1px solid var(--accent-cyan-border);
-      border-radius: 18px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.78);
+      border: 1px solid var(--border-strong);
+      border-radius: 16px;
       overflow: hidden;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
       margin: auto;
     }
 
     .modal-head {
-      padding: 12px 15px;
+      padding: 12px 16px;
       background: var(--bg-elevated);
       border-bottom: 1px solid var(--border-subtle);
       display: flex;
@@ -1557,65 +1326,51 @@
       margin: 0;
       font-size: 14.5px;
       font-weight: 800;
-    }
-
-    .modal-x {
-      min-width: 38px;
-      min-height: 38px;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--text-muted);
-      font-size: 16px;
+      color: var(--text-main);
     }
 
     .modal-body {
-      padding: 14px 15px;
+      padding: 14px 16px;
       display: flex;
       flex-direction: column;
       gap: 11px;
       max-height: 82vh;
       overflow-y: auto;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-lbl {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-sub);
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      min-height: 38px;
+      padding: 7px 10px;
+      border-radius: 9px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-input);
+      color: var(--text-main);
       font-size: 13px;
     }
 
-    .grid-2 {
+    .form-grid-2 {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       gap: 10px;
     }
 
     @media (min-width: 480px) {
-      .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    .fld-label {
-      display: block;
-      font-size: 11.5px;
-      font-weight: 800;
-      color: var(--text-sub);
-      margin-bottom: 4px;
-    }
-
-    .preview-strip {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px;
-      border-radius: 10px;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-    }
-
-    .preview-box {
-      position: relative;
-      width: 76px;
-      height: 58px;
-      border-radius: 8px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-thumb);
-      overflow: hidden;
-      flex-shrink: 0;
+      .form-grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     .modal-foot {
@@ -1628,53 +1383,21 @@
       gap: 8px;
     }
 
-    .btn-danger {
-      min-height: 38px;
-      padding: 0 14px;
-      border-radius: 9px;
-      border: 1px solid var(--danger-border);
-      background: #e11d48;
-      color: #ffffff;
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .btn-danger-soft {
-      min-height: 38px;
-      padding: 0 12px;
-      border-radius: 9px;
-      border: 1px solid var(--danger-border);
-      background: var(--danger-soft);
-      color: var(--danger);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .settings-card {
-      padding: 11px 12px;
-      border-radius: 11px;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
     .pager-bar {
-      margin-top: 12px;
+      margin-top: 14px;
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
       justify-content: center;
       gap: 8px;
     }
 
-    .empty-box {
+    .empty-card {
       text-align: center;
-      padding: 28px 16px;
-      background: var(--bg-card);
-      border: 1px dashed var(--border-strong);
+      padding: 28px 14px;
       border-radius: 14px;
+      background: var(--bg-card);
+      border: 1px dashed var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 12.5px;
     }
 
     .toast {
@@ -1685,14 +1408,15 @@
       max-width: 440px;
       margin: 0 auto;
       z-index: 60;
-      background: #0f172a;
-      color: #f8fafc;
-      border: 1px solid var(--accent-cyan);
-      border-radius: 12px;
-      padding: 11px 14px;
-      font-size: 12px;
-      font-weight: 700;
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.72);
+      background: var(--bg-elevated);
+      color: var(--text-main);
+      border: 1px solid var(--accent-cyan-border);
+      border-left: 4px solid var(--accent-cyan);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 12.5px;
+      font-weight: 800;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
       display: none;
       pointer-events: none;
     }
@@ -1708,12 +1432,17 @@
   <header class="app-header">
     <div class="header-inner">
       <div class="brand-box">
-        <div class="brand-icon" aria-hidden="true">◈</div>
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polygon points="12 2 21 7 21 17 12 22 3 17 3 7"></polygon>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </div>
         <div class="brand-meta">
           <h1 class="app-title">楽園追放 // DEVA ARCHIVE</h1>
-          <div id="sync-line" class="sync-line" role="status">
-            <span class="sync-dot"></span>
-            <span id="sync-text">接続待機中</span>
+          <div id="sync-line" class="sync-line is-syncing" role="status" aria-live="polite">
+            <span class="sync-dot" aria-hidden="true"></span>
+            <span id="sync-text">DEVA ARCHIVE 接続中...</span>
           </div>
         </div>
       </div>
@@ -1726,7 +1455,7 @@
         </div>
 
         <button type="button" class="hdr-btn" data-act="sync" aria-label="同期">
-          <span id="sync-icon">↻</span>
+          <span id="sync-spin" aria-hidden="true">↻</span>
           <span class="hdr-sync-text">同期</span>
         </button>
 
@@ -1734,204 +1463,169 @@
       </div>
     </div>
 
-    <!-- Top-Level 2 Tabs -->
-    <nav class="main-tabs-wrap" aria-label="メインタブ">
-      <div class="main-tabs" role="tablist">
+    <!-- Main 2-Tab Navigation -->
+    <div class="main-tabs-wrap">
+      <nav class="main-tabs" role="tablist" aria-label="メイン切替">
         <button type="button" id="tab-goods" class="main-tab-btn active" role="tab" aria-selected="true" data-act="switch-tab" data-val="goods">
-          <span>グッズ一覧</span>
+          <span>グッズ台帳</span>
           <span id="cnt-tab-goods" class="tab-badge">0</span>
         </button>
         <button type="button" id="tab-news" class="main-tab-btn" role="tab" aria-selected="false" data-act="switch-tab" data-val="news">
-          <span>ニュース一覧</span>
+          <span>最新ニュース</span>
           <span id="cnt-tab-news" class="tab-badge">0</span>
         </button>
-      </div>
-    </nav>
+      </nav>
+    </div>
   </header>
 
-  <!-- Main Workspace -->
+  <!-- Main Content -->
   <main class="main-wrap">
 
     <!-- =======================================================================
-         TAB 1: グッズ一覧
+         VIEW 1: グッズ台帳
          ======================================================================= -->
     <section id="view-goods" class="view-section">
+
       <!-- Character Roster HUD -->
       <div>
         <div class="sec-head">
-          <span class="sec-code">◈ DEVA PERSONNEL ROSTER</span>
-          <span class="sec-hint">タップでキャラクター絞り込み</span>
+          <span class="sec-code">AGENT ROSTER // 5-STATUS MATRIX</span>
+          <span class="sec-hint">タップでキャラ絞り込み（済・予・欲・検・見）</span>
         </div>
         <div id="roster-grid" class="roster-grid"></div>
       </div>
 
-      <!-- 6-Metric KPI -->
-      <div class="kpi-grid-6" aria-label="グッズKPI集計">
-        <div class="kpi-card c-cyan">
-          <span class="kpi-title">登録総数</span>
-          <div class="kpi-val" id="kpi-g-total">0点</div>
-          <span class="kpi-sub" id="kpi-g-total-sub">有効 0 / 見送り 0</span>
+      <!-- 7-Card KPI Grid (Total + 5 Statuses + Active Budget) -->
+      <div>
+        <div class="sec-head">
+          <span class="sec-code">COLLECTION TELEMETRY // 5 STATUSES</span>
+          <span class="sec-hint">所持済み / 予約済み / 欲しい / 検討 / 見送り</span>
         </div>
-        <div class="kpi-card c-owned">
-          <span class="kpi-title">所持済み</span>
-          <div class="kpi-val" id="kpi-g-owned">0点</div>
-          <span class="kpi-sub" id="kpi-g-rate">所持率 0%</span>
-        </div>
-        <div class="kpi-card c-reserved">
-          <span class="kpi-title">予約済み</span>
-          <div class="kpi-val" id="kpi-g-reserved">0点</div>
-          <span class="kpi-sub" id="kpi-g-reserved-yen">¥0</span>
-        </div>
-        <div class="kpi-card c-wish">
-          <span class="kpi-title">欲しい</span>
-          <div class="kpi-val" id="kpi-g-wish">0点</div>
-          <span class="kpi-sub" id="kpi-g-wish-yen">¥0</span>
-        </div>
-        <div class="kpi-card c-owned">
-          <span class="kpi-title">所持金額</span>
-          <div class="kpi-val" id="kpi-g-owned-yen">¥0</div>
-          <span class="kpi-sub" id="kpi-g-owned-sub">所持 0点合計</span>
-        </div>
-        <div class="kpi-card c-pink">
-          <span class="kpi-title">欲しい・予約予算</span>
-          <div class="kpi-val" id="kpi-g-budget">¥0</div>
-          <span class="kpi-sub" id="kpi-g-budget-sub">0点（見送り除外）</span>
+        <div class="kpi-grid-7">
+          <div class="kpi-card c-cyan">
+            <span class="kpi-lbl">すべて（登録総数）</span>
+            <div class="kpi-val" id="kpi-total">0点</div>
+            <span class="kpi-sub" id="kpi-total-yen">総額 ¥0</span>
+          </div>
+          <div class="kpi-card c-owned">
+            <span class="kpi-lbl">所持済み</span>
+            <div class="kpi-val" id="kpi-owned">0点</div>
+            <span class="kpi-sub" id="kpi-owned-yen">¥0 (0%)</span>
+          </div>
+          <div class="kpi-card c-reserved">
+            <span class="kpi-lbl">予約済み</span>
+            <div class="kpi-val" id="kpi-reserved">0点</div>
+            <span class="kpi-sub" id="kpi-reserved-yen">¥0</span>
+          </div>
+          <div class="kpi-card c-wish">
+            <span class="kpi-lbl">欲しい</span>
+            <div class="kpi-val" id="kpi-wish">0点</div>
+            <span class="kpi-sub" id="kpi-wish-yen">¥0</span>
+          </div>
+          <div class="kpi-card c-consider">
+            <span class="kpi-lbl">検討</span>
+            <div class="kpi-val" id="kpi-consider">0点</div>
+            <span class="kpi-sub" id="kpi-consider-yen">¥0</span>
+          </div>
+          <div class="kpi-card c-passed">
+            <span class="kpi-lbl">見送り</span>
+            <div class="kpi-val" id="kpi-passed">0点</div>
+            <span class="kpi-sub" id="kpi-passed-yen">¥0</span>
+          </div>
+          <div class="kpi-card c-cyan">
+            <span class="kpi-lbl">対象予算合計</span>
+            <div class="kpi-val" id="kpi-active-yen">¥0</div>
+            <span class="kpi-sub" id="kpi-active-cnt">見送り除く 0点</span>
+          </div>
         </div>
       </div>
 
-      <!-- Filter & Control Box -->
-      <div class="ctrl-box">
-        <div class="search-row">
-          <div class="search-wrap">
-            <input type="text" id="g-search" class="input-box" placeholder="タイトル・メモ・発売時期で検索...">
-            <button type="button" id="g-search-clear" class="clear-btn hidden" data-act="clear-g-search" aria-label="検索クリア">×</button>
-          </div>
-          <button type="button" class="btn-primary" data-act="open-add-goods">+ 新規登録</button>
-        </div>
-
-        <div id="g-status-pills" class="pill-row" role="group" aria-label="ステータス絞り込み"></div>
-
-        <div class="select-row">
-          <select id="g-cat-select" class="select-box" aria-label="カテゴリ絞り込み">
-            <option value="all">カテゴリ: すべて</option>
+      <!-- Filter & Control Panel -->
+      <div class="panel-box">
+        <div class="filter-top-row">
+          <input type="text" id="g-search" class="search-input" placeholder="商品名・ID・メモで検索...">
+          <select id="g-cat-select" class="ctrl-select" aria-label="カテゴリ絞り込み">
+            <option value="all">全カテゴリ</option>
           </select>
-          <select id="g-sort-select" class="select-box" aria-label="並び替え">
-            <option value="newest">登録新しい順</option>
-            <option value="price_desc">価格高い順</option>
-            <option value="price_asc">価格安い順</option>
+          <select id="g-sort-select" class="ctrl-select" aria-label="並び順">
+            <option value="newest">新しい順</option>
+            <option value="price_desc">金額が高い順</option>
+            <option value="price_asc">金額が安い順</option>
             <option value="title_asc">タイトル順</option>
           </select>
-          <div class="view-toggle" role="group" aria-label="表示切替">
-            <button type="button" id="v-btn-grid" class="view-btn active" data-act="set-view" data-val="grid">カード</button>
-            <button type="button" id="v-btn-list" class="view-btn" data-act="set-view" data-val="list">リスト</button>
+        </div>
+
+        <div id="g-status-chips" class="chip-row" role="group" aria-label="ステータス絞り込み"></div>
+        <div id="g-char-chips" class="chip-row" role="group" aria-label="キャラクター絞り込み"></div>
+
+        <div class="filter-foot-row">
+          <div class="chip-row">
+            <button type="button" id="btn-simple-view" class="chip-btn" data-act="toggle-simple">簡易表示</button>
+            <button type="button" class="chip-btn" data-act="reset-g-filters">条件リセット</button>
           </div>
+          <button type="button" class="add-btn" data-act="open-add-goods">＋ 新規グッズ登録</button>
         </div>
       </div>
 
-      <!-- Goods List Header & Container -->
+      <!-- Goods Cards Container -->
       <div>
-        <div class="list-bar">
-          <div class="list-bar-left">
-            <div class="accent-line"></div>
-            <h2>アーカイブ一覧</h2>
-            <span id="g-shown-pill" class="count-pill">0件</span>
-          </div>
-          <button type="button" class="btn-ghost" data-act="reset-g-filters">条件リセット</button>
+        <div class="sec-head">
+          <span class="sec-code">ARCHIVE ITEMS</span>
+          <span id="g-shown-cnt" class="sec-hint">表示中: 0件</span>
         </div>
 
-        <div id="g-list-container" class="cards-grid"></div>
+        <div id="g-list-container" class="items-grid"></div>
 
         <div id="g-pager" class="pager-bar hidden">
-          <button type="button" class="btn-primary" data-act="load-more">もっと見る (+36件)</button>
-          <button type="button" class="btn-ghost" data-act="show-all">すべて表示</button>
+          <button type="button" class="chip-btn" data-act="load-more">さらに36件を表示</button>
+          <button type="button" class="chip-btn" data-act="show-all">全件表示</button>
         </div>
 
-        <div id="g-empty" class="empty-box hidden">
-          <p style="margin:0 0 10px;font-weight:800;">条件に一致するグッズがありません</p>
-          <button type="button" class="btn-primary" data-act="reset-g-filters">フィルター条件を解除</button>
+        <div id="g-empty" class="empty-card hidden">
+          <p style="margin:0 0 10px;">一致するグッズが見つかりませんでした。</p>
+          <button type="button" class="chip-btn" data-act="reset-g-filters">絞り込み解除</button>
         </div>
       </div>
     </section>
 
     <!-- =======================================================================
-         TAB 2: ニュース一覧
+         VIEW 2: 最新ニュース
          ======================================================================= -->
     <section id="view-news" class="view-section hidden">
-      <!-- 2 Subtabs -->
-      <div>
-        <div class="sec-head">
-          <span class="sec-code">◈ DEVA INTEL FEED</span>
-          <span class="sec-hint">「+ グッズへ登録」でアイテム登録へ転記</span>
-        </div>
-        <div class="subtabs-grid" role="tablist">
-          <button type="button" id="subtab-n-goods" class="subtab-btn active-goods" role="tab" aria-selected="true" data-act="switch-news-sub" data-val="goods">
-            <span>グッズ・特典ニュース</span>
-            <span id="cnt-sub-goods" class="tab-badge">0</span>
-          </button>
-          <button type="button" id="subtab-n-other" class="subtab-btn" role="tab" aria-selected="false" data-act="switch-news-sub" data-val="other">
-            <span>その他のニュース</span>
-            <span id="cnt-sub-other" class="tab-badge">0</span>
-          </button>
-        </div>
+      <div class="news-subtabs" role="tablist">
+        <button type="button" id="subtab-n-goods" class="news-sub-btn active" data-act="switch-news-sub" data-val="goods">
+          <span>グッズ・特典ニュース</span>
+          <span id="cnt-sub-goods" class="tab-badge">0</span>
+        </button>
+        <button type="button" id="subtab-n-other" class="news-sub-btn" data-act="switch-news-sub" data-val="other">
+          <span>その他の作品ニュース</span>
+          <span id="cnt-sub-other" class="tab-badge">0</span>
+        </button>
       </div>
 
-      <!-- 3-Metric KPI -->
-      <div class="kpi-grid-3" aria-label="ニュース集計">
-        <div class="kpi-card c-wish">
-          <span class="kpi-title">グッズ・特典ニュース</span>
-          <div class="kpi-val" id="kpi-n-goods">0件</div>
-          <span class="kpi-sub">物販・特典・コラボ</span>
-        </div>
-        <div class="kpi-card c-cyan">
-          <span class="kpi-title">その他のニュース</span>
-          <div class="kpi-val" id="kpi-n-other">0件</div>
-          <span class="kpi-sub">記事・イベント・本編</span>
-        </div>
-        <div class="kpi-card c-owned">
-          <span class="kpi-title">現在の表示件数</span>
-          <div class="kpi-val" id="kpi-n-shown">0件</div>
-          <span class="kpi-sub" id="kpi-n-hidden-sub">非表示 0件</span>
-        </div>
-      </div>
-
-      <!-- News Controls -->
-      <div class="ctrl-box">
-        <div class="search-row">
-          <div class="search-wrap">
-            <input type="text" id="n-search" class="input-box" placeholder="タイトル・メディア名で検索...">
-            <button type="button" id="n-search-clear" class="clear-btn hidden" data-act="clear-n-search" aria-label="検索クリア">×</button>
-          </div>
-          <label class="check-pill" for="n-show-hidden">
+      <div class="panel-box">
+        <div class="filter-top-row">
+          <input type="text" id="n-search" class="search-input" placeholder="記事タイトル・メディア名で検索...">
+          <select id="n-type-select" class="ctrl-select" aria-label="記事種別">
+            <option value="all">全種別</option>
+          </select>
+          <label style="min-height:38px;padding:0 10px;border-radius:10px;border:1px solid var(--border-subtle);background:var(--bg-input);display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;cursor:pointer;">
             <input type="checkbox" id="n-show-hidden">
-            <span>非表示記事も表示</span>
+            <span>非表示も表示</span>
           </label>
         </div>
-
-        <div id="n-char-pills" class="pill-row" role="group" aria-label="ニュースキャラ絞り込み"></div>
-
-        <div class="select-row">
-          <select id="n-type-select" class="select-box" aria-label="種別絞り込み">
-            <option value="all">種別: すべて</option>
-          </select>
-          <button type="button" class="btn-ghost" data-act="reset-n-filters">条件リセット</button>
-        </div>
+        <div id="n-char-chips" class="chip-row"></div>
       </div>
 
-      <!-- News List -->
       <div>
-        <div class="list-bar">
-          <div class="list-bar-left">
-            <div class="accent-line"></div>
-            <h2 id="n-heading">グッズ・特典ニュース一覧</h2>
-            <span id="n-shown-pill" class="count-pill">0件</span>
-          </div>
+        <div class="sec-head">
+          <span id="n-heading" class="sec-code">GOODS & NOVELTY NEWS</span>
+          <span id="n-shown-cnt" class="sec-hint">表示中: 0件</span>
         </div>
-
-        <div id="n-list-container" class="cards-grid"></div>
-
-        <div id="n-empty" class="empty-box hidden">
-          <p style="margin:0 0 10px;font-weight:800;">条件に一致するニュースがありません</p>
-          <button type="button" class="btn-primary" data-act="reset-n-filters">条件をリセット</button>
+        <div id="n-list-container" class="items-grid"></div>
+        <div id="n-empty" class="empty-card hidden">
+          <p style="margin:0 0 10px;">該当するニュース記事はありません。</p>
+          <button type="button" class="chip-btn" data-act="reset-n-filters">条件リセット</button>
         </div>
       </div>
     </section>
@@ -1939,40 +1633,42 @@
   </main>
 
   <!-- =========================================================================
-       Modal 1: Add / Edit Goods Modal
+       Modal 1: Add / Edit Goods (5 Statuses)
        ========================================================================= -->
-  <div id="modal-goods" class="modal-backdrop" data-act="backdrop-close">
+  <div id="modal-goods" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-goods-title">
     <div class="modal-box">
       <div class="modal-head">
-        <h3 id="modal-goods-title">グッズ情報の編集</h3>
-        <button type="button" class="modal-x" data-act="close-modals" aria-label="閉じる">✕</button>
+        <h3 id="modal-goods-title">グッズ登録・編集</h3>
+        <button type="button" class="mini-btn" data-act="close-modals">✕</button>
       </div>
+
       <form id="goods-form" class="modal-body">
         <input type="hidden" id="f-id">
         <input type="hidden" id="f-created">
         <input type="hidden" id="f-source">
 
-        <div>
-          <label class="fld-label" for="f-title">タイトル *</label>
-          <input type="text" id="f-title" class="input-box" required placeholder="例：【楽園追放 心のレゾナンス】アクリルスタンド">
+        <div class="form-field">
+          <label class="form-lbl" for="f-title">商品名・タイトル（必須）</label>
+          <input type="text" id="f-title" class="form-input" required placeholder="例：【楽園追放 心のレゾナンス】アクリルスタンド">
         </div>
 
-        <div class="grid-2">
-          <div>
-            <label class="fld-label" for="f-char">キャラ区分</label>
-            <select id="f-char" class="input-box">
-              <option value="ガブリエル">ガブリエル（CV. 佐倉綾音）</option>
-              <option value="ラグエル">ラグエル（CV. 天城サリー）</option>
-              <option value="アルマ">アルマ（CV. 早見沙織）</option>
-              <option value="ダネル">ダネル（CV. 青山吉能）</option>
-              <option value="アンジェラ">アンジェラ（CV. 釘宮理恵）</option>
-              <option value="ペネム">ペネム（CV. 諸星すみれ）</option>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label class="form-lbl" for="f-char">キャラクター</label>
+            <select id="f-char" class="form-select">
+              <option value="ガブリエル">ガブリエル</option>
+              <option value="ラグエル">ラグエル</option>
+              <option value="アルマ">アルマ</option>
+              <option value="ダネル">ダネル</option>
+              <option value="アンジェラ">アンジェラ</option>
+              <option value="ペネム">ペネム</option>
               <option value="集合・その他">集合・その他</option>
             </select>
           </div>
-          <div>
-            <label class="fld-label" for="f-cat">カテゴリ</label>
-            <select id="f-cat" class="input-box">
+
+          <div class="form-field">
+            <label class="form-lbl" for="f-cat">カテゴリ</label>
+            <select id="f-cat" class="form-select">
               <option value="フィギュア">フィギュア</option>
               <option value="アクリル・雑貨">アクリル・雑貨</option>
               <option value="ぬいぐるみ">ぬいぐるみ</option>
@@ -1984,53 +1680,49 @@
           </div>
         </div>
 
-        <div class="grid-2">
-          <div>
-            <label class="fld-label" for="f-status">ステータス</label>
-            <select id="f-status" class="input-box">
-              <option value="欲しい">欲しい</option>
-              <option value="予約済み">予約済み</option>
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label class="form-lbl" for="f-status">ステータス（5区分）</label>
+            <select id="f-status" class="form-select" required>
               <option value="所持済み">所持済み</option>
+              <option value="予約済み">予約済み</option>
+              <option value="欲しい">欲しい</option>
+              <option value="検討">検討</option>
               <option value="見送り">見送り</option>
             </select>
           </div>
-          <div>
-            <label class="fld-label" for="f-price">集計金額(円)</label>
-            <input type="number" id="f-price" class="input-box" min="0" step="1" placeholder="1650">
+
+          <div class="form-field">
+            <label class="form-lbl" for="f-price">集計金額（円）</label>
+            <input type="number" id="f-price" class="form-input" min="0" step="1" placeholder="1650">
           </div>
         </div>
 
-        <div>
-          <label class="fld-label" for="f-rel-price">発売時期・価格表示</label>
-          <input type="text" id="f-rel-price" class="input-box" placeholder="例：2026年11月発売 / 1,650円">
+        <div class="form-field">
+          <label class="form-lbl" for="f-rel-price">発売時期・価格表記</label>
+          <input type="text" id="f-rel-price" class="form-input" placeholder="例：発売中 / 1,650円">
         </div>
 
-        <div>
-          <label class="fld-label" for="f-url">公式・販売URL</label>
-          <input type="url" id="f-url" class="input-box" placeholder="https://...">
+        <div class="form-field">
+          <label class="form-lbl" for="f-url">公式・販売ページURL</label>
+          <input type="url" id="f-url" class="form-input" placeholder="https://...">
         </div>
 
-        <div>
-          <label class="fld-label" for="f-thumb">サムネイル画像URL（任意・ライブプレビュー）</label>
-          <input type="url" id="f-thumb" class="input-box" placeholder="https://...">
-          <div class="preview-strip" style="margin-top:6px;">
-            <div id="f-thumb-preview" class="preview-box"></div>
-            <span style="font-size:11px;color:var(--text-muted);line-height:1.45;">
-              URL未入力または読込エラー時は、キャラクターカラー＆カテゴリ別のSVGアイコンが自動表示されます。
-            </span>
-          </div>
+        <div class="form-field">
+          <label class="form-lbl" for="f-thumb">サムネイル画像URL（任意）</label>
+          <input type="url" id="f-thumb" class="form-input" placeholder="https://...">
         </div>
 
-        <div>
-          <label class="fld-label" for="f-memo">メモ</label>
-          <textarea id="f-memo" class="input-box" rows="2" placeholder="メーカー・仕様メモなど"></textarea>
+        <div class="form-field">
+          <label class="form-lbl" for="f-memo">備考・メモ</label>
+          <textarea id="f-memo" class="form-textarea" rows="2" placeholder="メーカー名・購入店舗・特典情報など"></textarea>
         </div>
 
         <div class="modal-foot">
-          <button type="button" id="f-del-btn" class="btn-danger-soft" data-act="modal-ask-delete">削除</button>
+          <button type="button" id="f-del-btn" class="mini-btn danger" data-act="modal-ask-delete">削除</button>
           <div style="display:flex;gap:8px;margin-left:auto;">
-            <button type="button" class="btn-ghost" data-act="close-modals">キャンセル</button>
-            <button type="submit" class="btn-primary">保存して同期</button>
+            <button type="button" class="mini-btn" data-act="close-modals">キャンセル</button>
+            <button type="submit" class="add-btn">保存</button>
           </div>
         </div>
       </form>
@@ -2038,75 +1730,64 @@
   </div>
 
   <!-- =========================================================================
-       Modal 2: Delete Confirmation Modal
+       Modal 2: Delete Confirmation
        ========================================================================= -->
-  <div id="modal-confirm" class="modal-backdrop" data-act="backdrop-close">
+  <div id="modal-confirm" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
     <div class="modal-box" style="max-width:400px;">
       <div class="modal-head">
-        <h3>削除の確認</h3>
-        <button type="button" class="modal-x" data-act="close-modals" aria-label="閉じる">✕</button>
+        <h3 id="confirm-title">削除の確認</h3>
+        <button type="button" class="mini-btn" data-act="close-modals">✕</button>
       </div>
       <div class="modal-body">
-        <p id="confirm-msg" style="margin:0;line-height:1.6;"></p>
+        <p id="confirm-msg" style="margin:0;font-size:13px;line-height:1.55;"></p>
         <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:6px;">
-          <button type="button" class="btn-ghost" data-act="close-modals">キャンセル</button>
-          <button type="button" class="btn-danger" data-act="exec-delete">削除する</button>
+          <button type="button" class="mini-btn" data-act="close-modals">キャンセル</button>
+          <button type="button" class="mini-btn danger" data-act="exec-delete">削除する</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- =========================================================================
-       Modal 3: Settings & PWA Export Modal
+       Modal 3: Settings & Backup
        ========================================================================= -->
-  <div id="modal-settings" class="modal-backdrop" data-act="backdrop-close">
+  <div id="modal-settings" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="settings-title">
     <div class="modal-box">
       <div class="modal-head">
-        <h3>設定 ＆ データ・PWA管理</h3>
-        <button type="button" class="modal-x" data-act="close-modals" aria-label="閉じる">✕</button>
+        <h3 id="settings-title">DEVA ARCHIVE 設定・バックアップ</h3>
+        <button type="button" class="mini-btn" data-act="close-modals">✕</button>
       </div>
       <div class="modal-body">
-        <div class="settings-card">
-          <strong style="font-size:12.5px;">🔗 GAS Webアプリ URL（.../exec）</strong>
-          <input type="url" id="s-gas-url" class="input-box" style="font-family:var(--font-mono);font-size:11px;">
-          <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            <button type="button" class="btn-primary" data-act="save-gas-url">保存して再接続</button>
-            <button type="button" class="btn-ghost" data-act="reset-gas-url">初期URLに戻す</button>
+        <div class="form-field">
+          <label class="form-lbl" for="s-gas-url">GAS WebアプリURL（.../exec）</label>
+          <input type="url" id="s-gas-url" class="form-input" style="font-family:var(--font-mono);font-size:11.5px;">
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+            <button type="button" class="add-btn" data-act="save-gas-url">URL保存・同期</button>
+            <button type="button" class="mini-btn" data-act="reset-gas-url">初期URLへ戻す</button>
           </div>
         </div>
 
-        <div class="settings-card">
-          <strong style="font-size:12.5px;">🔄 キャッシュ消去・全件再取得</strong>
-          <p style="margin:0;font-size:11.5px;color:var(--text-muted);line-height:1.45;">
-            ローカルキャッシュを初期化してGASから全件再取得します。GAS更新後は「新バージョン」でデプロイした上で実行してください。
-          </p>
-          <div>
-            <button type="button" class="btn-danger-soft" data-act="purge-reload">キャッシュ消去・全件再取得</button>
+        <div class="form-field" style="padding-top:10px;border-top:1px solid var(--border-subtle);">
+          <span class="form-lbl">JSONバックアップ・データ管理</span>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+            <button type="button" class="mini-btn" data-act="export-json">JSON書き出し</button>
+            <button type="button" class="mini-btn" data-act="trigger-import">JSON読み込み</button>
+            <button type="button" class="mini-btn" data-act="download-html">HTML書き出し</button>
+            <button type="button" class="mini-btn danger" data-act="purge-reload">キャッシュ初期化</button>
           </div>
-        </div>
-
-        <div class="settings-card" style="border-color:var(--accent-cyan-border);">
-          <strong style="color:var(--accent-cyan);font-size:12.5px;">📲 PWA更新用 HTMLダウンロード</strong>
-          <p style="margin:0;font-size:11.5px;color:var(--text-sub);line-height:1.5;">
-            単一HTMLファイルとして書き出します。ホスティング先へ配置するとホーム画面アプリとして利用できます。
-          </p>
-          <div>
-            <button type="button" class="btn-primary" data-act="download-html">index.html をダウンロード</button>
-          </div>
+          <input type="file" id="json-file-input" accept="application/json,.json" class="hidden">
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Toast Notification -->
   <div id="toast-bar" class="toast" role="status" aria-live="polite"></div>
 
   <script>
     // =========================================================================
-    // 1. Safe Storage Wrapper (Zero SecurityError in Sandboxed Iframe)
+    // 1. Storage Helper
     // =========================================================================
     var memStore = {};
-
     function getStore(k) {
       try {
         var v = window.localStorage.getItem(k);
@@ -2114,56 +1795,66 @@
       } catch (e) {}
       return Object.prototype.hasOwnProperty.call(memStore, k) ? memStore[k] : null;
     }
-
     function setStore(k, v) {
       memStore[k] = String(v);
-      try {
-        window.localStorage.setItem(k, String(v));
-      } catch (e) {}
+      try { window.localStorage.setItem(k, String(v)); } catch (e) {}
     }
-
     function delStore(k) {
       delete memStore[k];
-      try {
-        window.localStorage.removeItem(k);
-      } catch (e) {}
+      try { window.localStorage.removeItem(k); } catch (e) {}
     }
 
     // =========================================================================
-    // 2. Constants & Character Metadata
+    // 2. Constants & 5 Status Definitions
     // =========================================================================
+    var SHEET_ID = '1nLj5JG-pjOFUP0HNBlukWEddCa249iZrPtBYB5-ARqE';
     var DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbw3ivIO211jexP-SrfH5GNUMivVQ0tru5HLeRoLBVzRXaOo_3G8mIKsaVf2r6sklskkfg/exec';
 
     var KEYS = {
-      ITEMS: 'deva_items_v8',
-      NEWS: 'deva_news_v8',
-      SUB_MAP: 'deva_news_sub_v8',
-      HIDE_MAP: 'deva_news_hide_v8',
-      GAS_URL: 'deva_gas_url_v8',
-      THEME: 'deva_theme_v8',
-      VIEW: 'deva_view_v8'
+      ITEMS: 'deva_archive_items_v3',
+      NEWS: 'deva_archive_news_v3',
+      SUB_MAP: 'deva_archive_sub_v3',
+      HIDE_MAP: 'deva_archive_hide_v3',
+      GAS_URL: 'deva_archive_gas_v3',
+      THEME: 'deva_archive_theme_v3',
+      SIMPLE: 'deva_archive_simple_v3'
     };
 
     var PAGE_SIZE = 36;
 
+    // Exact 5 statuses in requested order
+    var STATUS_LIST = ['所持済み', '予約済み', '欲しい', '検討', '見送り'];
+
     var CHAR_META = {
-      'ガブリエル': { en: 'GABRIEL', cv: 'CV. 佐倉綾音', color: '#00e5ff', soft: 'rgba(0, 229, 255, 0.16)', border: 'rgba(0, 229, 255, 0.46)' },
-      'ラグエル': { en: 'RAGUEL', cv: 'CV. 天城サリー', color: '#a855f7', soft: 'rgba(168, 85, 247, 0.16)', border: 'rgba(168, 85, 247, 0.46)' },
-      'アルマ': { en: 'ARMA', cv: 'CV. 早見沙織', color: '#38bdf8', soft: 'rgba(56, 189, 248, 0.16)', border: 'rgba(56, 189, 248, 0.46)' },
-      'ダネル': { en: 'DANELLE', cv: 'CV. 青山吉能', color: '#34d399', soft: 'rgba(52, 211, 153, 0.16)', border: 'rgba(52, 211, 153, 0.46)' },
-      'アンジェラ': { en: 'ANGELA', cv: 'CV. 釘宮理恵', color: '#f43f5e', soft: 'rgba(244, 63, 94, 0.16)', border: 'rgba(244, 63, 94, 0.46)' },
-      'ペネム': { en: 'PENEMUE', cv: 'CV. 諸星すみれ', color: '#fbbf24', soft: 'rgba(251, 191, 36, 0.16)', border: 'rgba(251, 191, 36, 0.46)' },
-      '集合・その他': { en: 'UNIT / OTHER', cv: '全体・作品関連', color: '#94a3b8', soft: 'rgba(148, 163, 184, 0.16)', border: 'rgba(148, 163, 184, 0.38)' }
+      'all': { en: 'ALL AGENTS', sub: '全キャラクター統括', color: '#00e5ff' },
+      'ガブリエル': { en: 'GABRIEL', sub: 'CV. 佐倉綾音', color: '#00e5ff' },
+      'ラグエル': { en: 'RAGUEL', sub: 'CV. 天城サリー', color: '#c084fc' },
+      'アルマ': { en: 'ARMA', sub: 'CV. 早見沙織', color: '#10b981' },
+      'ダネル': { en: 'DANELLE', sub: 'CV. 青山吉能', color: '#f59e0b' },
+      'アンジェラ': { en: 'ANGELA', sub: 'CV. 釘宮理恵', color: '#ff2a85' },
+      'ペネム': { en: 'PENEMUE', sub: 'CV. 諸星すみれ', color: '#facc15' },
+      '集合・その他': { en: 'SQUAD / OTHER', sub: '集合・作品関連', color: '#94a3b8' }
     };
 
     var ROSTER_ORDER = ['all', 'ガブリエル', 'ラグエル', 'アルマ', 'ダネル', 'アンジェラ', 'ペネム', '集合・その他'];
     var CHAR_LIST = ['ガブリエル', 'ラグエル', 'アルマ', 'ダネル', 'アンジェラ', 'ペネム', '集合・その他'];
     var CAT_LIST = ['フィギュア', 'アクリル・雑貨', 'ぬいぐるみ', '書籍・画集', '映像・CD', 'イベント・コラボ', 'その他'];
-    var STATUS_LIST = ['所持済み', '予約済み', '欲しい', '見送り'];
     var GOODS_NEWS_KW = ['グッズ', '特典', '来場者', '入場者', 'ムビチケ', 'コラボカフェ', 'POP UP', '書籍', 'サントラ', 'CD', 'アクスタ', 'フィギュア', 'ぬいぐるみ', 'デジタルグッズ'];
 
+    var SEED_ITEMS = [
+      { id: 'item_001', title: '【楽園追放 心のレゾナンス】齋藤将嗣デザインワークス', character: '集合・その他', category: '書籍・画集', releasePrice: '発売中 / 3,850円', price: 3850, status: '所持済み', url: 'https://www.animate-onlineshop.jp/pn/pd/3581155/', memo: '公式設定資料・デザインワークス', createdAt: '2026-11-13', source: '初期登録' },
+      { id: 'item_006', title: 'PLAMATEA 楽園追放 心のレゾナンス ガブリエル', character: 'ガブリエル', category: 'フィギュア', releasePrice: '予約受付中 / 7,800円', price: 7800, status: '予約済み', url: 'https://www.goodsmile.com/ja/product/1140674', memo: 'グッドスマイルカンパニー プラモデル', createdAt: '2026-11-15', source: '初期登録' },
+      { id: 'item_016', title: '楽園追放 心のレゾナンス ラグエル アクリルスタンド（コスパ）', character: 'ラグエル', category: 'アクリル・雑貨', releasePrice: '発売中 / 1,650円', price: 1650, status: '欲しい', url: 'https://www.animate-onlineshop.jp/', memo: '二次元コスパ描き下ろしアクリルスタンド', createdAt: '2026-11-18', source: '初期登録' },
+      { id: 'item_164', title: 'Lucrea（ルクリア） 楽園追放 心のレゾナンス ガブリエル（1/7スケールフィギュア）', character: 'ガブリエル', category: 'フィギュア', releasePrice: '2027年2月発送予定 / 25,300円', price: 25300, status: '検討', url: 'https://p-bandai.jp/item/item-1000257649/', memo: 'メガハウス 1/7スケールフィギュア', createdAt: '2026-11-27', source: '自動巡回' },
+      { id: 'item_179', title: '【楽園追放 心のレゾナンス】抱き枕カバー アンジェラ（フォールン）', character: 'アンジェラ', category: 'アクリル・雑貨', releasePrice: '発売中 / 16,500円', price: 16500, status: '見送り', url: 'https://store.toei-anim.co.jp/shop/r/r104105/', memo: '東映ストア限定', createdAt: '2026-11-28', source: '自動巡回' }
+    ];
+
+    var SEED_NEWS = [
+      { id: 'news_001', title: '『楽園追放 心のレゾナンス』第2弾来場者特典「メガアーハン A5イラストボード」配布開始', character: '集合・その他', type: 'グッズ・特典', date: '2026-11-27', url: 'https://rakuen-tsuiho-r.com/novelty/', source: '公式サイト', excluded: false }
+    ];
+
     // =========================================================================
-    // 3. Application State
+    // 3. State
     // =========================================================================
     var items = [];
     var newsList = [];
@@ -2173,28 +1864,16 @@
     var newsHideMap = {};
     var gasUrl = DEFAULT_GAS_URL;
     var themeMode = 'deva';
-    var viewMode = 'grid';
+    var simpleMode = false;
     var visibleLimit = PAGE_SIZE;
     var pendingDeleteId = '';
     var toastTimer = null;
 
-    var gFilter = {
-      character: 'all',
-      status: 'all',
-      category: 'all',
-      query: '',
-      sort: 'newest'
-    };
-
-    var nFilter = {
-      character: 'all',
-      type: 'all',
-      showHidden: false,
-      query: ''
-    };
+    var gFilter = { character: 'all', status: 'all', category: 'all', query: '', sort: 'newest' };
+    var nFilter = { character: 'all', type: 'all', showHidden: false, query: '' };
 
     // =========================================================================
-    // 4. Pure String Sanitizers & Normalizers (Zero Regex Literals)
+    // 4. Sanitizers & Normalizers
     // =========================================================================
     function cleanUrl(raw) {
       var s = String(raw || '').trim();
@@ -2237,6 +1916,7 @@
 
     function normStatus(raw) {
       var s = String(raw || '').trim();
+      if (s === '検討中') return '検討';
       return STATUS_LIST.indexOf(s) !== -1 ? s : '欲しい';
     }
 
@@ -2277,32 +1957,25 @@
     }
 
     function formatYen(num) {
-      var n = Math.round(Number(num) || 0);
-      return '¥' + n.toLocaleString('ja-JP');
+      return '¥' + Math.round(Number(num) || 0).toLocaleString('ja-JP');
     }
 
     function getNewsBucket(n) {
-      if (newsSubMap[n.id] === 'goods' || newsSubMap[n.id] === 'other') {
-        return newsSubMap[n.id];
-      }
+      if (newsSubMap[n.id] === 'goods' || newsSubMap[n.id] === 'other') return newsSubMap[n.id];
       var combined = (n.type + ' ' + n.title).toUpperCase();
       for (var i = 0; i < GOODS_NEWS_KW.length; i++) {
-        if (combined.indexOf(GOODS_NEWS_KW[i].toUpperCase()) !== -1) {
-          return 'goods';
-        }
+        if (combined.indexOf(GOODS_NEWS_KW[i].toUpperCase()) !== -1) return 'goods';
       }
       return 'other';
     }
 
     function isNewsHidden(n) {
-      if (Object.prototype.hasOwnProperty.call(newsHideMap, n.id)) {
-        return Boolean(newsHideMap[n.id]);
-      }
+      if (Object.prototype.hasOwnProperty.call(newsHideMap, n.id)) return Boolean(newsHideMap[n.id]);
       return Boolean(n.excluded);
     }
 
     // =========================================================================
-    // 5. Safe DOM & SVG Builders
+    // 5. DOM & Thumbnail Helpers
     // =========================================================================
     function el(tag, attrs, children) {
       var node = document.createElement(tag);
@@ -2334,51 +2007,26 @@
       return node;
     }
 
-    function makeSvgEmblem(charName, size) {
+    function makeHexSvg(size) {
       var ns = 'http://www.w3.org/2000/svg';
       var svg = document.createElementNS(ns, 'svg');
       svg.setAttribute('width', String(size));
       svg.setAttribute('height', String(size));
-      svg.setAttribute('viewBox', '0 0 32 32');
+      svg.setAttribute('viewBox', '0 0 24 24');
       svg.setAttribute('fill', 'none');
       svg.setAttribute('stroke', 'currentColor');
-      svg.setAttribute('stroke-width', '2.2');
-
-      var outer = document.createElementNS(ns, 'polygon');
-      outer.setAttribute('points', '16 2 28 9 28 23 16 30 4 23 4 9 16 2');
-      svg.appendChild(outer);
-
-      var inner = document.createElementNS(ns, 'polygon');
-      if (charName === 'ラグエル' || charName === 'アンジェラ') {
-        inner.setAttribute('points', '16 6 26 16 16 26 6 16 16 6');
-      } else if (charName === 'アルマ' || charName === 'ペネム') {
-        inner.setAttribute('points', '16 6 26 23 6 23 16 6');
-      } else {
-        inner.setAttribute('points', '16 8 23 16 16 24 9 16 16 8');
-      }
-      svg.appendChild(inner);
-
-      var dot = document.createElementNS(ns, 'circle');
-      dot.setAttribute('cx', '16');
-      dot.setAttribute('cy', '16');
-      dot.setAttribute('r', '2.3');
-      dot.setAttribute('fill', 'currentColor');
-      svg.appendChild(dot);
-
+      svg.setAttribute('stroke-width', '2');
+      var poly = document.createElementNS(ns, 'polygon');
+      poly.setAttribute('points', '12 2 21 7 21 17 12 22 3 17 3 7');
+      svg.appendChild(poly);
       return svg;
     }
 
-    function buildThumbContainer(containerClass, thumbUrl, labelTag, charName, iconSize, showTag) {
-      var meta = CHAR_META[charName] || CHAR_META['集合・その他'];
-      var box = el('div', { className: containerClass });
-
-      var fbStyle = '--t-color:' + meta.color + ';--t-soft:' + meta.soft + ';--t-border:' + meta.border + ';';
-      var fbChildren = [makeSvgEmblem(charName, iconSize)];
-      if (showTag) {
-        fbChildren.push(el('span', { className: 'thumb-tag', text: labelTag || charName }));
-      }
-      var fb = el('div', { className: 'thumb-fallback', style: fbStyle }, fbChildren);
-      box.appendChild(fb);
+    function buildThumb(cls, thumbUrl, labelText, iconSize, showLabel) {
+      var box = el('div', { className: cls });
+      var fb = [makeHexSvg(iconSize)];
+      if (showLabel) fb.push(el('span', { text: labelText || 'NO IMAGE' }));
+      box.appendChild(el('div', { className: 'thumb-fallback' }, fb));
 
       var safeImg = cleanThumb(thumbUrl);
       if (safeImg) {
@@ -2402,61 +2050,161 @@
         img.src = safeImg;
         box.appendChild(img);
       }
-
       return box;
     }
 
     // =========================================================================
-    // 6. Toast & Sync Status Helpers
+    // 6. Sync (GAS Web App + Direct Google Spreadsheet GViz JSONP Fallback)
     // =========================================================================
     function showToast(msg) {
       var bar = document.getElementById('toast-bar');
       if (!bar) return;
-      bar.textContent = '◈ ' + msg;
+      bar.textContent = msg;
       bar.classList.add('show');
       if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(function() {
-        bar.classList.remove('show');
-      }, 2800);
+      toastTimer = setTimeout(function() { bar.classList.remove('show'); }, 2600);
     }
 
     function setSyncState(state, text) {
       var line = document.getElementById('sync-line');
-      var label = document.getElementById('sync-text');
-      var icon = document.getElementById('sync-icon');
-      if (line) {
-        line.className = 'sync-line' + (state ? (' is-' + state) : '');
-      }
-      if (label) {
-        label.textContent = text;
-      }
-      if (icon) {
-        if (state === 'syncing') icon.classList.add('spin');
-        else icon.classList.remove('spin');
+      var lbl = document.getElementById('sync-text');
+      var spin = document.getElementById('sync-spin');
+      if (line) line.className = 'sync-line' + (state ? (' is-' + state) : '');
+      if (lbl) lbl.textContent = text;
+      if (spin) {
+        if (state === 'syncing') spin.classList.add('spin');
+        else spin.classList.remove('spin');
       }
     }
 
-    function formatSyncText() {
+    function formatSyncText(tag) {
       var gImg = items.filter(function(x) { return Boolean(cleanThumb(x.thumbnail)); }).length;
-      var nImg = newsList.filter(function(x) { return Boolean(cleanThumb(x.thumbnail)); }).length;
-      return '同期完了: グッズ ' + items.length + '件 (画像' + gImg + ') / ニュース ' + newsList.length + '件 (画像' + nImg + ')';
+      return 'SYNC OK // グッズ ' + items.length + '件 (画像 ' + gImg + '件) ・ ニュース ' + newsList.length + '件' + (tag ? (' ' + tag) : '');
     }
 
-    // =========================================================================
-    // 7. GAS Communication (GET & POST)
-    // =========================================================================
-    function syncFromGas(silent) {
-      setSyncState('syncing', 'GAS同期中...');
-      var sep = gasUrl.indexOf('?') === -1 ? '?' : '&';
-      var reqUrl = gasUrl + sep + 't=' + Date.now();
+    function loadViaGvizJsonp(sheetName) {
+      return new Promise(function(resolve, reject) {
+        var cbName = '_devaGviz_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+        var script = document.createElement('script');
+        var timer = setTimeout(function() {
+          cleanup();
+          reject(new Error('GViz timeout'));
+        }, 9000);
 
-      fetch(reqUrl, { method: 'GET', cache: 'no-store' })
+        function cleanup() {
+          clearTimeout(timer);
+          try { delete window[cbName]; } catch (e) { window[cbName] = undefined; }
+          if (script.parentNode) script.parentNode.removeChild(script);
+        }
+
+        window[cbName] = function(resp) {
+          cleanup();
+          if (!resp || !resp.table || !Array.isArray(resp.table.rows)) {
+            reject(new Error('Invalid GViz payload'));
+            return;
+          }
+          var rows = resp.table.rows.map(function(r) {
+            return (r.c || []).map(function(cell) {
+              return cell && cell.v !== null && cell.v !== undefined ? cell.v : '';
+            });
+          });
+          resolve(rows);
+        };
+
+        script.src = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
+          '/gviz/tq?sheet=' + encodeURIComponent(sheetName) +
+          '&tqx=out:json;responseHandler:' + cbName + '&t=' + Date.now();
+        script.onerror = function() {
+          cleanup();
+          reject(new Error('GViz script error'));
+        };
+        document.head.appendChild(script);
+      });
+    }
+
+    function fallbackLoadFromSheet(silent, origErr) {
+      Promise.all([
+        loadViaGvizJsonp('グッズ一覧'),
+        loadViaGvizJsonp('ニュース一覧').catch(function() { return []; })
+      ])
+        .then(function(res) {
+          var gRows = res[0] || [];
+          var nRows = res[1] || [];
+
+          var parsedItems = [];
+          for (var i = 0; i < gRows.length; i++) {
+            var r = gRows[i];
+            var idVal = String(r[0] || '').trim();
+            if (!idVal || idVal === 'ID' || idVal === 'id') continue;
+            parsedItems.push(normItem({
+              id: idVal,
+              title: r[1],
+              character: r[2],
+              category: r[3],
+              releasePrice: r[4],
+              price: r[5],
+              status: r[6],
+              url: r[7],
+              memo: r[8],
+              createdAt: r[9],
+              source: r[10],
+              thumbnail: r[11]
+            }));
+          }
+
+          if (parsedItems.length > 0) {
+            items = parsedItems;
+            setStore(KEYS.ITEMS, JSON.stringify(items));
+          }
+
+          var parsedNews = [];
+          for (var j = 0; j < nRows.length; j++) {
+            var nr = nRows[j];
+            var nid = String(nr[0] || '').trim();
+            if (!nid || nid === 'ID' || nid === 'id') continue;
+            parsedNews.push(normNews({
+              id: nid,
+              title: nr[1],
+              character: nr[2],
+              type: nr[3],
+              date: nr[4],
+              url: nr[5],
+              source: nr[6],
+              excluded: nr[7],
+              thumbnail: nr[8]
+            }));
+          }
+
+          if (parsedNews.length > 0) {
+            newsList = parsedNews;
+            setStore(KEYS.NEWS, JSON.stringify(newsList));
+          }
+
+          setSyncState('synced', formatSyncText('[SHEET]'));
+          renderAll();
+          if (!silent) showToast('スプレッドシートと同期しました');
+        })
+        .catch(function() {
+          if (items.length === 0) {
+            items = SEED_ITEMS.map(normItem);
+            newsList = SEED_NEWS.map(normNews);
+          }
+          setSyncState('error', 'OFFLINE // ローカルキャッシュ表示中');
+          renderAll();
+          if (!silent && origErr) showToast('同期エラー: ' + origErr.message);
+        });
+    }
+
+    function syncFromGas(silent) {
+      setSyncState('syncing', 'DEVA ARCHIVE 同期中...');
+      var sep = gasUrl.indexOf('?') === -1 ? '?' : '&';
+      fetch(gasUrl + sep + 't=' + Date.now(), { method: 'GET', cache: 'no-store' })
         .then(function(res) {
           if (!res.ok) throw new Error('HTTP ' + res.status);
           return res.json();
         })
         .then(function(data) {
-          var rawItems = Array.isArray(data) ? data : (data && Array.isArray(data.items) ? data.items : null);
+          var rawItems = Array.isArray(data) ? data : (data && Array.isArray(data.items) ? data.items : (data && Array.isArray(data.goods) ? data.goods : null));
           if (rawItems !== null) {
             items = rawItems.map(normItem);
             setStore(KEYS.ITEMS, JSON.stringify(items));
@@ -2466,18 +2214,17 @@
             newsList = rawNews.map(normNews);
             setStore(KEYS.NEWS, JSON.stringify(newsList));
           }
-          setSyncState('synced', formatSyncText());
+          setSyncState('synced', formatSyncText(''));
           renderAll();
-          if (!silent) showToast('スプレッドシートと同期しました');
+          if (!silent) showToast('同期が完了しました');
         })
         .catch(function(err) {
-          setSyncState('error', '同期エラー（ローカル表示中）');
-          if (!silent) showToast('通信エラー: ' + err.message);
+          fallbackLoadFromSheet(silent, err);
         });
     }
 
     function postToGas(payload) {
-      setSyncState('syncing', 'シートへ保存中...');
+      setSyncState('syncing', 'シートへ送信中...');
       fetch(gasUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -2501,15 +2248,15 @@
               }
             }
           } catch (e) {}
-          setSyncState('synced', formatSyncText());
+          setSyncState('synced', formatSyncText(''));
         })
         .catch(function() {
-          setSyncState('error', '送信保留（再同期で反映）');
+          setSyncState('error', 'ローカル保存済み（シート送信は次回同期時）');
         });
     }
 
     // =========================================================================
-    // 8. Filtering & Sorting Logic
+    // 7. Filtering & Rendering
     // =========================================================================
     function getFilteredGoods() {
       var q = gFilter.query.trim().toLowerCase();
@@ -2530,7 +2277,6 @@
         if (gFilter.sort === 'title_asc') return a.title.localeCompare(b.title, 'ja');
         return b.id.localeCompare(a.id, 'ja');
       });
-
       return list;
     }
 
@@ -2549,154 +2295,175 @@
       });
     }
 
-    // =========================================================================
-    // 9. Rendering Functions
-    // =========================================================================
-    function renderHeaderBadges() {
-      document.getElementById('cnt-tab-goods').textContent = String(items.length);
-      document.getElementById('cnt-tab-news').textContent = String(newsList.length);
-    }
-
-    function renderRosterHud() {
-      var grid = document.getElementById('roster-grid');
-      grid.textContent = '';
+    function renderRosterAndKpi() {
+      // 1. Character Roster HUD (済・予・欲・検・見)
+      var roster = document.getElementById('roster-grid');
+      roster.textContent = '';
 
       for (var i = 0; i < ROSTER_ORDER.length; i++) {
         var key = ROSTER_ORDER[i];
-        var isAll = key === 'all';
-        var meta = isAll
-          ? { en: 'ALL UNITS', cv: '全キャラクター表示', color: 'var(--accent-cyan)', soft: 'var(--accent-cyan-soft)', border: 'var(--accent-cyan-border)' }
-          : CHAR_META[key];
+        var meta = CHAR_META[key];
+        var subset = key === 'all' ? items : items.filter(function(x) { return x.character === key; });
 
-        var subset = isAll
-          ? items.filter(function(x) { return x.status !== '見送り'; })
-          : items.filter(function(x) { return x.character === key && x.status !== '見送り'; });
+        var cOwned = subset.filter(function(x) { return x.status === '所持済み'; }).length;
+        var cRes = subset.filter(function(x) { return x.status === '予約済み'; }).length;
+        var cWish = subset.filter(function(x) { return x.status === '欲しい'; }).length;
+        var cCons = subset.filter(function(x) { return x.status === '検討'; }).length;
+        var cPass = subset.filter(function(x) { return x.status === '見送り'; }).length;
+        var activeCnt = subset.length - cPass;
+        var pct = activeCnt > 0 ? Math.round((cOwned / activeCnt) * 100) : 0;
 
-        var ownedCnt = subset.filter(function(x) { return x.status === '所持済み'; }).length;
-        var totalCnt = subset.length;
-        var pct = totalCnt > 0 ? Math.round((ownedCnt / totalCnt) * 100) : 0;
-
+        var isSel = gFilter.character === key;
         var card = el('div', {
-          className: 'hud-card' + (gFilter.character === key ? ' active' : ''),
+          className: 'hud-card' + (isSel ? ' active' : ''),
           style: '--char-color:' + meta.color + ';',
           'data-act': 'select-g-char',
-          'data-val': key
-        });
-
-        var iconBox = el('div', {
-          className: 'hud-icon-box',
-          style: 'background:' + meta.soft + ';border:1px solid ' + meta.border + ';color:' + meta.color + ';'
-        }, [makeSvgEmblem(key, 17)]);
-
-        var info = el('div', { className: 'hud-text' }, [
-          el('span', { className: 'hud-en', style: 'color:' + meta.color + ';', text: meta.en }),
-          el('h3', { className: 'hud-name', text: isAll ? 'すべて' : key }),
-          el('span', { className: 'hud-sub', text: meta.cv })
+          'data-val': key,
+          role: 'button',
+          tabindex: '0'
+        }, [
+          el('div', { className: 'hud-top' }, [
+            el('div', {
+              className: 'hud-icon-box',
+              style: 'background:' + meta.color + '22;border:1px solid ' + meta.color + '66;color:' + meta.color + ';'
+            }, [makeHexSvg(16)]),
+            el('div', { className: 'hud-text' }, [
+              el('span', { className: 'hud-en', style: 'color:' + meta.color + ';', text: meta.en }),
+              el('h3', { className: 'hud-name', text: key === 'all' ? '全キャラ' : key }),
+              el('span', { className: 'hud-sub', text: meta.sub })
+            ])
+          ]),
+          el('div', { className: 'hud-bar' }, [
+            el('div', { className: 'hud-bar-fill', style: 'width:' + pct + '%;background:' + meta.color + ';' })
+          ]),
+          el('div', { className: 'hud-foot' }, [
+            el('span', { text: '済' + cOwned + ' 予' + cRes + ' 欲' + cWish + ' 検' + cCons + ' 見' + cPass }),
+            el('span', { style: 'font-family:var(--font-mono);color:var(--text-main);', text: subset.length + '件' })
+          ])
         ]);
-
-        card.appendChild(el('div', { className: 'hud-top' }, [iconBox, info]));
-
-        var foot = el('div', { className: 'hud-foot' }, [
-          el('span', { text: '所持 ' + ownedCnt + ' / ' + totalCnt }),
-          el('span', { style: 'font-family:var(--font-mono);color:' + meta.color + ';', text: pct + '%' })
-        ]);
-        card.appendChild(foot);
-
-        var barFill = el('div', {
-          className: 'hud-bar-fill',
-          style: 'width:' + pct + '%;background:' + meta.color + ';'
-        });
-        card.appendChild(el('div', { className: 'hud-bar' }, [barFill]));
-
-        grid.appendChild(card);
+        roster.appendChild(card);
       }
-    }
 
-    function renderGoodsKpi() {
+      // 2. 7-Card KPI Telemetry (All + 5 Statuses + Active Budget)
+      var owned = items.filter(function(x) { return x.status === '所持済み'; });
+      var reserved = items.filter(function(x) { return x.status === '予約済み'; });
+      var wish = items.filter(function(x) { return x.status === '欲しい'; });
+      var consider = items.filter(function(x) { return x.status === '検討'; });
       var passed = items.filter(function(x) { return x.status === '見送り'; });
-      var active = items.filter(function(x) { return x.status !== '見送り'; });
-      var owned = active.filter(function(x) { return x.status === '所持済み'; });
-      var reserved = active.filter(function(x) { return x.status === '予約済み'; });
-      var wish = active.filter(function(x) { return x.status === '欲しい'; });
+      var activeItems = items.filter(function(x) { return x.status !== '見送り'; });
 
+      var totalYen = items.reduce(function(s, x) { return s + (x.price || 0); }, 0);
       var ownedYen = owned.reduce(function(s, x) { return s + (x.price || 0); }, 0);
       var reservedYen = reserved.reduce(function(s, x) { return s + (x.price || 0); }, 0);
       var wishYen = wish.reduce(function(s, x) { return s + (x.price || 0); }, 0);
-      var budgetYen = reservedYen + wishYen;
-      var rate = active.length > 0 ? Math.round((owned.length / active.length) * 100) : 0;
+      var considerYen = consider.reduce(function(s, x) { return s + (x.price || 0); }, 0);
+      var passedYen = passed.reduce(function(s, x) { return s + (x.price || 0); }, 0);
+      var activeYen = activeItems.reduce(function(s, x) { return s + (x.price || 0); }, 0);
+      var rate = activeItems.length > 0 ? Math.round((owned.length / activeItems.length) * 100) : 0;
 
-      document.getElementById('kpi-g-total').textContent = items.length + '点';
-      document.getElementById('kpi-g-total-sub').textContent = '有効 ' + active.length + ' / 見送り ' + passed.length;
-      document.getElementById('kpi-g-owned').textContent = owned.length + '点';
-      document.getElementById('kpi-g-rate').textContent = '所持率 ' + rate + '%';
-      document.getElementById('kpi-g-reserved').textContent = reserved.length + '点';
-      document.getElementById('kpi-g-reserved-yen').textContent = formatYen(reservedYen);
-      document.getElementById('kpi-g-wish').textContent = wish.length + '点';
-      document.getElementById('kpi-g-wish-yen').textContent = formatYen(wishYen);
-      document.getElementById('kpi-g-owned-yen').textContent = formatYen(ownedYen);
-      document.getElementById('kpi-g-owned-sub').textContent = '所持 ' + owned.length + '点合計';
-      document.getElementById('kpi-g-budget').textContent = formatYen(budgetYen);
-      document.getElementById('kpi-g-budget-sub').textContent = (reserved.length + wish.length) + '点（見送り除外）';
+      document.getElementById('kpi-total').textContent = items.length + '点';
+      document.getElementById('kpi-total-yen').textContent = '総額 ' + formatYen(totalYen);
+
+      document.getElementById('kpi-owned').textContent = owned.length + '点';
+      document.getElementById('kpi-owned-yen').textContent = formatYen(ownedYen) + ' (' + rate + '%)';
+
+      document.getElementById('kpi-reserved').textContent = reserved.length + '点';
+      document.getElementById('kpi-reserved-yen').textContent = formatYen(reservedYen);
+
+      document.getElementById('kpi-wish').textContent = wish.length + '点';
+      document.getElementById('kpi-wish-yen').textContent = formatYen(wishYen);
+
+      document.getElementById('kpi-consider').textContent = consider.length + '点';
+      document.getElementById('kpi-consider-yen').textContent = formatYen(considerYen);
+
+      document.getElementById('kpi-passed').textContent = passed.length + '点';
+      document.getElementById('kpi-passed-yen').textContent = formatYen(passedYen);
+
+      document.getElementById('kpi-active-yen').textContent = formatYen(activeYen);
+      document.getElementById('kpi-active-cnt').textContent = '見送り除く ' + activeItems.length + '点';
     }
 
     function renderGoodsControls() {
-      var stRow = document.getElementById('g-status-pills');
+      // Status filter chips (すべて + 5 statuses)
+      var stRow = document.getElementById('g-status-chips');
       stRow.textContent = '';
-      stRow.appendChild(el('span', { className: 'pill-label', text: '状態:' }));
-
       var stOpts = ['all'].concat(STATUS_LIST);
+
       for (var i = 0; i < stOpts.length; i++) {
         var st = stOpts[i];
+        var cnt = st === 'all' ? items.length : items.filter(function(x) { return x.status === st; }).length;
         stRow.appendChild(el('button', {
           type: 'button',
-          className: 'pill-btn' + (gFilter.status === st ? ' active' : ''),
+          className: 'chip-btn' + (gFilter.status === st ? ' active' : ''),
           'data-act': 'select-g-status',
           'data-val': st,
-          text: st === 'all' ? 'すべて' : st
+          text: (st === 'all' ? 'すべて' : st) + ' (' + cnt + ')'
         }));
       }
 
+      // Character chips
+      var chRow = document.getElementById('g-char-chips');
+      chRow.textContent = '';
+      for (var c = 0; c < ROSTER_ORDER.length; c++) {
+        var ch = ROSTER_ORDER[c];
+        chRow.appendChild(el('button', {
+          type: 'button',
+          className: 'chip-btn' + (gFilter.character === ch ? ' active' : ''),
+          'data-act': 'select-g-char',
+          'data-val': ch,
+          text: ch === 'all' ? '全キャラ' : ch
+        }));
+      }
+
+      // Category select
       var catSel = document.getElementById('g-cat-select');
       var curCat = gFilter.category;
       var cats = CAT_LIST.slice();
       for (var j = 0; j < items.length; j++) {
-        if (items[j].category && cats.indexOf(items[j].category) === -1) {
-          cats.push(items[j].category);
-        }
+        if (items[j].category && cats.indexOf(items[j].category) === -1) cats.push(items[j].category);
       }
       catSel.textContent = '';
-      catSel.appendChild(el('option', { value: 'all', text: 'カテゴリ: すべて' }));
+      catSel.appendChild(el('option', { value: 'all', text: '全カテゴリ' }));
       for (var k = 0; k < cats.length; k++) {
         var opt = el('option', { value: cats[k], text: cats[k] });
         if (cats[k] === curCat) opt.selected = true;
         catSel.appendChild(opt);
       }
 
-      document.getElementById('v-btn-grid').classList.toggle('active', viewMode === 'grid');
-      document.getElementById('v-btn-list').classList.toggle('active', viewMode === 'list');
+      document.getElementById('btn-simple-view').classList.toggle('active', simpleMode);
     }
 
-    function buildStatusButtons(item, wrapClass) {
-      var wrap = el('div', { className: wrapClass });
-      var mapClass = {
-        '所持済み': 'on-owned',
-        '予約済み': 'on-reserved',
-        '欲しい': 'on-wish',
-        '見送り': 'on-passed'
+    function build5StatusPills(item) {
+      var wrap = el('div', { className: 'status-group-5', role: 'group', 'aria-label': 'ステータス変更' });
+      var clsMap = {
+        '所持済み': 'active-owned',
+        '予約済み': 'active-reserved',
+        '欲しい': 'active-wish',
+        '検討': 'active-consider',
+        '見送り': 'active-passed'
       };
       for (var i = 0; i < STATUS_LIST.length; i++) {
         var st = STATUS_LIST[i];
         var isOn = item.status === st;
         wrap.appendChild(el('button', {
           type: 'button',
-          className: 'st-btn' + (isOn ? (' ' + mapClass[st]) : ''),
+          className: 'st-pill' + (isOn ? (' ' + clsMap[st]) : ''),
           'data-act': 'set-g-status',
           'data-id': item.id,
           'data-val': st,
+          'aria-pressed': isOn ? 'true' : 'false',
           text: st
         }));
       }
       return wrap;
+    }
+
+    function getStatusBadgeClass(st) {
+      if (st === '所持済み') return 'st-owned';
+      if (st === '予約済み') return 'st-reserved';
+      if (st === '検討') return 'st-consider';
+      if (st === '見送り') return 'st-passed';
+      return 'st-wish';
     }
 
     function renderGoodsList() {
@@ -2706,8 +2473,8 @@
       var pager = document.getElementById('g-pager');
       var empty = document.getElementById('g-empty');
 
-      document.getElementById('g-shown-pill').textContent = filtered.length + '件';
-      container.className = viewMode === 'grid' ? 'cards-grid' : 'cards-list';
+      document.getElementById('g-shown-cnt').textContent = '表示中: ' + shown.length + ' / ' + filtered.length + '件';
+      container.className = simpleMode ? 'items-list' : 'items-grid';
       container.textContent = '';
 
       if (filtered.length === 0) {
@@ -2720,100 +2487,90 @@
       if (filtered.length > visibleLimit) pager.classList.remove('hidden');
       else pager.classList.add('hidden');
 
-      var stClassMap = {
-        '所持済み': 'st-owned',
-        '予約済み': 'st-reserved',
-        '欲しい': 'st-wish',
-        '見送り': 'st-passed'
-      };
-
       for (var i = 0; i < shown.length; i++) {
         var it = shown[i];
         var meta = CHAR_META[it.character] || CHAR_META['集合・その他'];
-        var stCls = stClassMap[it.status] || 'st-wish';
+        var stCls = getStatusBadgeClass(it.status);
 
-        if (viewMode === 'grid') {
-          var card = el('article', { className: 'g-card ' + stCls });
-          var banner = buildThumbContainer('card-banner', it.thumbnail, it.category, it.character, 34, true);
+        if (!simpleMode) {
+          var card = el('article', { className: 'item-card' + (it.status === '見送り' ? ' is-passed' : '') });
+          card.appendChild(buildThumb('thumb-wrap', it.thumbnail, it.category, 26, true));
 
-          var charBadge = el('span', {
-            className: 'banner-char',
-            style: 'background:' + meta.soft + ';border:1px solid ' + meta.border + ';color:' + meta.color + ';',
-            text: it.character
-          });
+          var titleEl = it.url
+            ? el('h3', { className: 'item-title' }, [el('a', { href: it.url, target: '_blank', rel: 'noopener noreferrer', text: it.title })])
+            : el('h3', { className: 'item-title', text: it.title });
 
-          var btnWrap = el('div', { className: 'banner-btns' }, [
-            el('button', { type: 'button', className: 'btn-edit', 'data-act': 'edit-goods', 'data-id': it.id, text: '編集' }),
-            el('button', { type: 'button', className: 'btn-del', 'data-act': 'ask-del-goods', 'data-id': it.id, 'aria-label': '削除', text: '✕' })
-          ]);
-
-          banner.appendChild(el('div', { className: 'banner-top' }, [charBadge, btnWrap]));
-          card.appendChild(banner);
-
-          var bodyChildren = [
+          var bodyList = [
             el('div', { className: 'badge-row' }, [
-              el('span', { className: 'tag-badge mono', text: it.id }),
-              el('span', { className: 'tag-badge', text: it.category })
+              el('span', { className: 'badge mono', text: it.id }),
+              el('span', { className: 'badge' }, [
+                el('span', { className: 'char-dot', style: 'background:' + meta.color + ';' }),
+                el('span', { text: it.character })
+              ]),
+              el('span', { className: 'badge', text: it.category }),
+              el('span', { className: 'badge ' + stCls, text: it.status })
             ]),
-            el('h3', { className: 'g-title', text: it.title })
+            titleEl
           ];
 
           if (it.releasePrice || it.price > 0) {
-            bodyChildren.push(el('div', { className: 'price-box' }, [
+            bodyList.push(el('div', { className: 'price-row' }, [
               el('span', { text: it.releasePrice || '価格登録済み' }),
-              it.price > 0 ? el('span', { className: 'price-yen', text: formatYen(it.price) }) : null
+              it.price > 0 ? el('span', { className: 'price-val', text: formatYen(it.price) }) : null
             ]));
           }
 
           if (it.memo) {
-            bodyChildren.push(el('p', { className: 'g-memo', text: it.memo }));
+            bodyList.push(el('p', { className: 'item-memo', text: it.memo }));
           }
 
-          card.appendChild(el('div', { className: 'g-body' }, bodyChildren));
+          card.appendChild(el('div', { className: 'card-body' }, bodyList));
 
-          var footChildren = [buildStatusButtons(it, 'st-grid-4')];
-          if (it.url) {
-            footChildren.push(el('div', { className: 'link-row' }, [
-              el('a', { className: 'ext-link', href: it.url, target: '_blank', rel: 'noopener noreferrer', text: '公式・販売ページ ↗' })
-            ]));
-          }
-          card.appendChild(el('div', { className: 'g-foot' }, footChildren));
+          card.appendChild(el('div', { className: 'card-footer' }, [
+            build5StatusPills(it),
+            el('div', { className: 'card-actions-bar' }, [
+              it.url ? el('a', { className: 'link-ext', href: it.url, target: '_blank', rel: 'noopener noreferrer', text: '公式・販売ページ ↗' }) : el('span', {}),
+              el('div', { style: 'display:flex;gap:5px;' }, [
+                el('button', { type: 'button', className: 'mini-btn', 'data-act': 'edit-goods', 'data-id': it.id, text: '編集' }),
+                el('button', { type: 'button', className: 'mini-btn danger', 'data-act': 'ask-del-goods', 'data-id': it.id, text: '削除' })
+              ])
+            ])
+          ]));
+
           container.appendChild(card);
         } else {
-          var row = el('article', { className: 'l-row ' + stCls });
-          var thumb = buildThumbContainer('list-thumb', it.thumbnail, '', it.character, 22, false);
+          var row = el('article', { className: 'simple-row' + (it.status === '見送り' ? ' is-passed' : '') });
+          var thumb = buildThumb('simple-thumb', it.thumbnail, '', 20, false);
+          var titleSimple = it.url
+            ? el('h3', { className: 'item-title', style: 'font-size:12.5px;margin-top:3px;' }, [el('a', { href: it.url, target: '_blank', rel: 'noopener noreferrer', text: it.title })])
+            : el('h3', { className: 'item-title', style: 'font-size:12.5px;margin-top:3px;', text: it.title });
 
-          var mainCol = el('div', { className: 'l-main' }, [
+          var info = el('div', { style: 'min-width:0;flex:1;' }, [
             el('div', { className: 'badge-row' }, [
-              el('span', {
-                className: 'tag-badge',
-                style: 'background:' + meta.soft + ';border-color:' + meta.border + ';color:' + meta.color + ';',
-                text: it.character
-              }),
-              el('span', { className: 'tag-badge', text: it.category }),
-              it.price > 0 ? el('span', { className: 'price-yen', text: formatYen(it.price) }) : null
+              el('span', { className: 'badge mono', text: it.id }),
+              el('span', { className: 'badge' }, [
+                el('span', { className: 'char-dot', style: 'background:' + meta.color + ';' }),
+                el('span', { text: it.character })
+              ]),
+              el('span', { className: 'badge ' + stCls, text: it.status }),
+              it.price > 0 ? el('span', { className: 'price-val', text: formatYen(it.price) }) : null
             ]),
-            el('h3', { className: 'g-title', style: 'margin-top:4px;', text: it.title })
+            titleSimple
           ]);
 
-          row.appendChild(el('div', { className: 'l-left' }, [thumb, mainCol]));
-
-          var actChildren = [buildStatusButtons(it, 'l-st-4')];
-          if (it.url) {
-            actChildren.push(el('a', { className: 'ext-link', href: it.url, target: '_blank', rel: 'noopener noreferrer', text: 'リンク ↗' }));
-          }
-          actChildren.push(el('button', { type: 'button', className: 'btn-ghost', 'data-act': 'edit-goods', 'data-id': it.id, text: '編集' }));
-          actChildren.push(el('button', { type: 'button', className: 'btn-del', 'data-act': 'ask-del-goods', 'data-id': it.id, 'aria-label': '削除', text: '✕' }));
-
-          row.appendChild(el('div', { className: 'l-actions' }, actChildren));
+          row.appendChild(el('div', { className: 'simple-left' }, [thumb, info]));
+          row.appendChild(el('div', { style: 'display:flex;flex-wrap:wrap;align-items:center;gap:6px;' }, [
+            el('div', { style: 'flex:1 1 250px;' }, [build5StatusPills(it)]),
+            el('button', { type: 'button', className: 'mini-btn', 'data-act': 'edit-goods', 'data-id': it.id, text: '編集' }),
+            el('button', { type: 'button', className: 'mini-btn danger', 'data-act': 'ask-del-goods', 'data-id': it.id, text: '削除' })
+          ]));
           container.appendChild(row);
         }
       }
     }
 
     function renderGoods() {
-      renderRosterHud();
-      renderGoodsKpi();
+      renderRosterAndKpi();
       renderGoodsControls();
       renderGoodsList();
     }
@@ -2822,47 +2579,34 @@
       var goodsBucket = newsList.filter(function(n) { return getNewsBucket(n) === 'goods'; });
       var otherBucket = newsList.filter(function(n) { return getNewsBucket(n) === 'other'; });
       var activeBucketList = activeNewsSub === 'goods' ? goodsBucket : otherBucket;
-      var hiddenCnt = activeBucketList.filter(isNewsHidden).length;
       var filtered = getFilteredNews();
 
       document.getElementById('cnt-sub-goods').textContent = String(goodsBucket.length);
       document.getElementById('cnt-sub-other').textContent = String(otherBucket.length);
-      document.getElementById('kpi-n-goods').textContent = goodsBucket.length + '件';
-      document.getElementById('kpi-n-other').textContent = otherBucket.length + '件';
-      document.getElementById('kpi-n-shown').textContent = filtered.length + '件';
-      document.getElementById('kpi-n-hidden-sub').textContent = '非表示 ' + hiddenCnt + '件';
-      document.getElementById('n-shown-pill').textContent = filtered.length + '件';
-      document.getElementById('n-heading').textContent = activeNewsSub === 'goods' ? 'グッズ・特典ニュース一覧' : 'その他のニュース一覧';
+      document.getElementById('n-shown-cnt').textContent = '表示中: ' + filtered.length + '件';
+      document.getElementById('subtab-n-goods').classList.toggle('active', activeNewsSub === 'goods');
+      document.getElementById('subtab-n-other').classList.toggle('active', activeNewsSub === 'other');
 
-      var subG = document.getElementById('subtab-n-goods');
-      var subO = document.getElementById('subtab-n-other');
-      subG.className = 'subtab-btn' + (activeNewsSub === 'goods' ? ' active-goods' : '');
-      subO.className = 'subtab-btn' + (activeNewsSub === 'other' ? ' active-other' : '');
-
-      var charRow = document.getElementById('n-char-pills');
+      var charRow = document.getElementById('n-char-chips');
       charRow.textContent = '';
-      charRow.appendChild(el('span', { className: 'pill-label', text: 'キャラ:' }));
-      var cOpts = ['all'].concat(CHAR_LIST);
-      for (var i = 0; i < cOpts.length; i++) {
-        var ch = cOpts[i];
+      for (var i = 0; i < ROSTER_ORDER.length; i++) {
+        var ch = ROSTER_ORDER[i];
         charRow.appendChild(el('button', {
           type: 'button',
-          className: 'pill-btn' + (nFilter.character === ch ? ' active' : ''),
+          className: 'chip-btn' + (nFilter.character === ch ? ' active' : ''),
           'data-act': 'select-n-char',
           'data-val': ch,
-          text: ch === 'all' ? 'すべて' : ch
+          text: ch === 'all' ? '全キャラ' : ch
         }));
       }
 
       var typeSel = document.getElementById('n-type-select');
       var types = [];
       for (var j = 0; j < activeBucketList.length; j++) {
-        if (activeBucketList[j].type && types.indexOf(activeBucketList[j].type) === -1) {
-          types.push(activeBucketList[j].type);
-        }
+        if (activeBucketList[j].type && types.indexOf(activeBucketList[j].type) === -1) types.push(activeBucketList[j].type);
       }
       typeSel.textContent = '';
-      typeSel.appendChild(el('option', { value: 'all', text: '種別: すべて' }));
+      typeSel.appendChild(el('option', { value: 'all', text: '全種別' }));
       for (var k = 0; k < types.length; k++) {
         var opt = el('option', { value: types[k], text: types[k] });
         if (types[k] === nFilter.type) opt.selected = true;
@@ -2883,90 +2627,70 @@
         var n = filtered[idx];
         var meta = CHAR_META[n.character] || CHAR_META['集合・その他'];
         var hiddenFlag = isNewsHidden(n);
-        var card = el('article', { className: 'g-card' + (hiddenFlag ? ' st-passed' : '') });
+        var card = el('article', { className: 'item-card' + (hiddenFlag ? ' is-passed' : '') });
 
-        var thumb = buildThumbContainer('news-thumb', n.thumbnail, '', n.character, 24, false);
-        var badges = [
-          el('span', {
-            className: 'tag-badge',
-            style: 'background:' + meta.soft + ';border-color:' + meta.border + ';color:' + meta.color + ';',
-            text: n.character
-          }),
-          el('span', { className: 'tag-badge type', text: n.type })
-        ];
-        if (hiddenFlag) {
-          badges.push(el('span', { className: 'tag-badge hidden-flag', text: '非表示中' }));
-        }
-
-        var info = el('div', { className: 'news-info' }, [
-          el('div', { className: 'badge-row' }, badges),
-          el('h3', { className: 'g-title', style: 'font-size:13px;', text: n.title }),
-          el('span', { className: 'kpi-sub', text: (n.date ? (n.date + ' ・ ') : '') + n.source })
+        var thumb = buildThumb('news-thumb', n.thumbnail, '', 20, false);
+        var info = el('div', { style: 'min-width:0;flex:1;display:flex;flex-direction:column;gap:4px;' }, [
+          el('div', { className: 'badge-row' }, [
+            el('span', { className: 'badge' }, [
+              el('span', { className: 'char-dot', style: 'background:' + meta.color + ';' }),
+              el('span', { text: n.character })
+            ]),
+            el('span', { className: 'badge st-consider', text: n.type })
+          ]),
+          el('h3', { className: 'item-title', style: 'font-size:12.5px;', text: n.title }),
+          el('span', { className: 'kpi-sub', text: (n.date ? (n.date + ' / ') : '') + n.source })
         ]);
 
-        card.appendChild(el('div', { className: 'g-body' }, [
+        card.appendChild(el('div', { className: 'card-body' }, [
           el('div', { className: 'news-split' }, [thumb, info])
         ]));
 
-        var actBtns = [];
-        if (n.url) {
-          actBtns.push(el('a', { className: 'ext-link', href: n.url, target: '_blank', rel: 'noopener noreferrer', text: '記事を開く ↗' }));
-        }
-        actBtns.push(el('button', { type: 'button', className: 'btn-promote', 'data-act': 'promote-news', 'data-id': n.id, text: '+ グッズへ登録' }));
-        actBtns.push(el('button', {
+        var acts = [];
+        if (n.url) acts.push(el('a', { className: 'link-ext', href: n.url, target: '_blank', rel: 'noopener noreferrer', text: '記事を開く ↗' }));
+        acts.push(el('button', { type: 'button', className: 'add-btn', style: 'min-height:30px;padding:0 9px;font-size:11px;', 'data-act': 'promote-news', 'data-id': n.id, text: '＋ グッズ台帳へ転記' }));
+        acts.push(el('button', {
           type: 'button',
-          className: 'btn-move',
-          'data-act': 'move-news-sub',
-          'data-id': n.id,
-          text: activeNewsSub === 'goods' ? 'その他へ移動' : 'グッズへ移動'
-        }));
-        actBtns.push(el('button', {
-          type: 'button',
-          className: 'btn-hide',
+          className: 'mini-btn',
           'data-act': 'toggle-hide-news',
           'data-id': n.id,
-          text: hiddenFlag ? '復元' : '非表示'
+          text: hiddenFlag ? '再表示' : '非表示'
         }));
 
-        card.appendChild(el('div', { className: 'g-foot' }, [
-          el('div', { className: 'news-actions' }, actBtns)
+        card.appendChild(el('div', { className: 'card-footer' }, [
+          el('div', { style: 'display:flex;flex-wrap:wrap;align-items:center;gap:6px;' }, acts)
         ]));
         container.appendChild(card);
       }
     }
 
     function renderAll() {
-      renderHeaderBadges();
+      document.getElementById('cnt-tab-goods').textContent = String(items.length);
+      document.getElementById('cnt-tab-news').textContent = String(newsList.length);
       renderGoods();
       renderNews();
     }
 
     // =========================================================================
-    // 10. Modal Controls (Open / Close / Live Thumbnail Preview)
+    // 8. Theme, Modals & Events
     // =========================================================================
-    function closeAllModals() {
-      var list = document.querySelectorAll('.modal-backdrop');
-      for (var i = 0; i < list.length; i++) {
-        list[i].classList.remove('open');
-      }
+    function applyTheme(mode) {
+      themeMode = (mode === 'light' || mode === 'dark') ? mode : 'deva';
+      document.body.className = 'theme-' + themeMode;
+      document.getElementById('th-deva').classList.toggle('active', themeMode === 'deva');
+      document.getElementById('th-light').classList.toggle('active', themeMode === 'light');
+      document.getElementById('th-dark').classList.toggle('active', themeMode === 'dark');
+      setStore(KEYS.THEME, themeMode);
     }
 
-    function updateModalPreview() {
-      var box = document.getElementById('f-thumb-preview');
-      if (!box) return;
-      box.textContent = '';
-      var url = document.getElementById('f-thumb').value;
-      var ch = document.getElementById('f-char').value;
-      var cat = document.getElementById('f-cat').value;
-      var built = buildThumbContainer('preview-box', url, cat, ch, 24, false);
-      while (built.firstChild) {
-        box.appendChild(built.firstChild);
-      }
+    function closeAllModals() {
+      var list = document.querySelectorAll('.modal-overlay');
+      for (var i = 0; i < list.length; i++) list[i].classList.remove('open');
     }
 
     function openGoodsModal(itemObj, isNew) {
       var it = itemObj || {};
-      document.getElementById('modal-goods-title').textContent = isNew ? '新規グッズ登録' : 'グッズ情報の編集';
+      document.getElementById('modal-goods-title').textContent = isNew ? '新規グッズ登録' : 'グッズ編集';
       document.getElementById('f-id').value = isNew ? '' : (it.id || '');
       document.getElementById('f-created').value = it.createdAt || new Date().toISOString().slice(0, 10);
       document.getElementById('f-source').value = it.source || 'PWA';
@@ -2984,7 +2708,6 @@
       if (isNew) delBtn.classList.add('hidden');
       else delBtn.classList.remove('hidden');
 
-      updateModalPreview();
       document.getElementById('modal-goods').classList.add('open');
     }
 
@@ -2995,7 +2718,7 @@
       }
       if (!target) return;
       pendingDeleteId = id;
-      document.getElementById('confirm-msg').textContent = '「' + target.title + '」を削除しますか？（スプレッドシートからも削除されます）';
+      document.getElementById('confirm-msg').textContent = '「' + target.title + '」を削除しますか？';
       document.getElementById('modal-confirm').classList.add('open');
     }
 
@@ -3007,52 +2730,41 @@
       setStore(KEYS.ITEMS, JSON.stringify(items));
       closeAllModals();
       renderAll();
-      showToast('アイテムを削除しました');
-      postToGas({ action: 'delete', id: targetId });
+      showToast('削除しました');
+      postToGas({ action: 'deleteItem', id: targetId });
     }
 
-    function applyTheme(mode) {
-      themeMode = (mode === 'light' || mode === 'dark') ? mode : 'deva';
-      document.body.className = 'theme-' + themeMode;
-      document.getElementById('th-deva').classList.toggle('active', themeMode === 'deva');
-      document.getElementById('th-light').classList.toggle('active', themeMode === 'light');
-      document.getElementById('th-dark').classList.toggle('active', themeMode === 'dark');
-      setStore(KEYS.THEME, themeMode);
-    }
-
-    function switchMainTab(tab) {
-      activeTab = tab === 'news' ? 'news' : 'goods';
-      document.getElementById('tab-goods').classList.toggle('active', activeTab === 'goods');
-      document.getElementById('tab-news').classList.toggle('active', activeTab === 'news');
-      document.getElementById('view-goods').classList.toggle('hidden', activeTab !== 'goods');
-      document.getElementById('view-news').classList.toggle('hidden', activeTab !== 'news');
-    }
-
-    function downloadStandaloneHtml() {
-      var clone = document.documentElement.cloneNode(true);
-      var badges = clone.querySelectorAll('.modal-backdrop');
-      for (var i = 0; i < badges.length; i++) {
-        badges[i].classList.remove('open');
-      }
-      var htmlText = '<!DOCTYPE html>\n' + clone.outerHTML;
-      var blob = new Blob([htmlText], { type: 'text/html;charset=utf-8' });
+    function exportJson() {
+      var payload = { exportedAt: new Date().toISOString(), sheetId: SHEET_ID, items: items, news: newsList };
+      var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'index.html';
+      a.download = 'deva_archive_' + new Date().toISOString().slice(0, 10) + '.json';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      showToast('index.html をダウンロードしました');
+      showToast('JSONバックアップを書き出しました');
     }
 
-    // =========================================================================
-    // 11. Single Delegated Event Listener & Input Bindings
-    // =========================================================================
+    function downloadHtml() {
+      var clone = document.documentElement.cloneNode(true);
+      var modals = clone.querySelectorAll('.modal-overlay');
+      for (var i = 0; i < modals.length; i++) modals[i].classList.remove('open');
+      var blob = new Blob(['<!DOCTYPE html>\n' + clone.outerHTML], { type: 'text/html;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'rakuen_tsuihou_archive.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast('rakuen_tsuihou_archive.html を書き出しました');
+    }
+
     document.addEventListener('click', function(e) {
       var target = e.target;
       if (!target || !target.closest) return;
 
-      if (target.classList && target.classList.contains('modal-backdrop')) {
+      if (target.classList && target.classList.contains('modal-overlay')) {
         closeAllModals();
         return;
       }
@@ -3073,7 +2785,11 @@
       } else if (act === 'close-modals') {
         closeAllModals();
       } else if (act === 'switch-tab') {
-        switchMainTab(val);
+        activeTab = val === 'news' ? 'news' : 'goods';
+        document.getElementById('tab-goods').classList.toggle('active', activeTab === 'goods');
+        document.getElementById('tab-news').classList.toggle('active', activeTab === 'news');
+        document.getElementById('view-goods').classList.toggle('hidden', activeTab !== 'goods');
+        document.getElementById('view-news').classList.toggle('hidden', activeTab !== 'news');
       } else if (act === 'select-g-char') {
         gFilter.character = (val !== 'all' && gFilter.character === val) ? 'all' : val;
         visibleLimit = PAGE_SIZE;
@@ -3082,24 +2798,17 @@
         gFilter.status = (val !== 'all' && gFilter.status === val) ? 'all' : val;
         visibleLimit = PAGE_SIZE;
         renderGoods();
-      } else if (act === 'clear-g-search') {
-        gFilter.query = '';
-        document.getElementById('g-search').value = '';
-        document.getElementById('g-search-clear').classList.add('hidden');
-        visibleLimit = PAGE_SIZE;
-        renderGoods();
+      } else if (act === 'toggle-simple') {
+        simpleMode = !simpleMode;
+        setStore(KEYS.SIMPLE, simpleMode ? '1' : '0');
+        renderGoodsControls();
+        renderGoodsList();
       } else if (act === 'reset-g-filters') {
         gFilter = { character: 'all', status: 'all', category: 'all', query: '', sort: 'newest' };
         document.getElementById('g-search').value = '';
-        document.getElementById('g-search-clear').classList.add('hidden');
         document.getElementById('g-sort-select').value = 'newest';
         visibleLimit = PAGE_SIZE;
         renderGoods();
-      } else if (act === 'set-view') {
-        viewMode = val === 'list' ? 'list' : 'grid';
-        setStore(KEYS.VIEW, viewMode);
-        renderGoodsControls();
-        renderGoodsList();
       } else if (act === 'load-more') {
         visibleLimit += PAGE_SIZE;
         renderGoodsList();
@@ -3110,19 +2819,13 @@
         openGoodsModal({}, true);
       } else if (act === 'edit-goods') {
         for (var i = 0; i < items.length; i++) {
-          if (items[i].id === id) {
-            openGoodsModal(items[i], false);
-            break;
-          }
+          if (items[i].id === id) { openGoodsModal(items[i], false); break; }
         }
       } else if (act === 'ask-del-goods') {
         askDeleteGoods(id);
       } else if (act === 'modal-ask-delete') {
         var curId = document.getElementById('f-id').value;
-        if (curId) {
-          closeAllModals();
-          askDeleteGoods(curId);
-        }
+        if (curId) { closeAllModals(); askDeleteGoods(curId); }
       } else if (act === 'exec-delete') {
         executeDeleteGoods();
       } else if (act === 'set-g-status') {
@@ -3131,6 +2834,7 @@
             items[j].status = normStatus(val);
             setStore(KEYS.ITEMS, JSON.stringify(items));
             renderGoods();
+            showToast('「' + items[j].status + '」に変更しました');
             postToGas({ action: 'updateStatus', id: id, status: items[j].status });
             break;
           }
@@ -3142,15 +2846,9 @@
       } else if (act === 'select-n-char') {
         nFilter.character = (val !== 'all' && nFilter.character === val) ? 'all' : val;
         renderNews();
-      } else if (act === 'clear-n-search') {
-        nFilter.query = '';
-        document.getElementById('n-search').value = '';
-        document.getElementById('n-search-clear').classList.add('hidden');
-        renderNews();
       } else if (act === 'reset-n-filters') {
         nFilter = { character: 'all', type: 'all', showHidden: false, query: '' };
         document.getElementById('n-search').value = '';
-        document.getElementById('n-search-clear').classList.add('hidden');
         document.getElementById('n-show-hidden').checked = false;
         renderNews();
       } else if (act === 'promote-news') {
@@ -3161,19 +2859,14 @@
               title: n.title,
               character: n.character,
               category: n.type.indexOf('フィギュア') !== -1 ? 'フィギュア' : 'アクリル・雑貨',
+              status: '検討',
               url: n.url,
               thumbnail: n.thumbnail,
-              memo: 'ニュース転記: ' + n.source
+              memo: 'ニュース記事より転記: ' + n.source
             }, true);
             break;
           }
         }
-      } else if (act === 'move-news-sub') {
-        var nextSub = activeNewsSub === 'goods' ? 'other' : 'goods';
-        newsSubMap[id] = nextSub;
-        setStore(KEYS.SUB_MAP, JSON.stringify(newsSubMap));
-        renderNews();
-        showToast(nextSub === 'goods' ? 'グッズ・特典ニュースへ移動しました' : 'その他のニュースへ移動しました');
       } else if (act === 'toggle-hide-news') {
         for (var m = 0; m < newsList.length; m++) {
           if (newsList[m].id === id) {
@@ -3187,10 +2880,7 @@
         }
       } else if (act === 'save-gas-url') {
         var nextUrl = cleanUrl(document.getElementById('s-gas-url').value);
-        if (!nextUrl) {
-          showToast('有効なhttps URLを入力してください');
-          return;
-        }
+        if (!nextUrl) { showToast('有効なURLを入力してください'); return; }
         gasUrl = nextUrl;
         setStore(KEYS.GAS_URL, gasUrl);
         closeAllModals();
@@ -3199,7 +2889,7 @@
         gasUrl = DEFAULT_GAS_URL;
         document.getElementById('s-gas-url').value = gasUrl;
         setStore(KEYS.GAS_URL, gasUrl);
-        showToast('初期URLに戻しました');
+        showToast('初期URLへ戻しました');
       } else if (act === 'purge-reload') {
         delStore(KEYS.ITEMS);
         delStore(KEYS.NEWS);
@@ -3208,18 +2898,20 @@
         closeAllModals();
         renderAll();
         syncFromGas(false);
+      } else if (act === 'export-json') {
+        exportJson();
+      } else if (act === 'trigger-import') {
+        document.getElementById('json-file-input').click();
       } else if (act === 'download-html') {
-        downloadStandaloneHtml();
+        downloadHtml();
       }
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-      // Load saved preferences & cached data
       var savedTheme = getStore(KEYS.THEME);
       if (savedTheme) applyTheme(savedTheme);
 
-      var savedView = getStore(KEYS.VIEW);
-      if (savedView === 'list' || savedView === 'grid') viewMode = savedView;
+      simpleMode = getStore(KEYS.SIMPLE) === '1';
 
       var savedUrl = cleanUrl(getStore(KEYS.GAS_URL));
       if (savedUrl) gasUrl = savedUrl;
@@ -3234,18 +2926,11 @@
         if (Array.isArray(cachedNews)) newsList = cachedNews.map(normNews);
       } catch (e) {}
 
-      try {
-        newsSubMap = JSON.parse(getStore(KEYS.SUB_MAP) || '{}') || {};
-      } catch (e) {}
+      try { newsSubMap = JSON.parse(getStore(KEYS.SUB_MAP) || '{}') || {}; } catch (e) {}
+      try { newsHideMap = JSON.parse(getStore(KEYS.HIDE_MAP) || '{}') || {}; } catch (e) {}
 
-      try {
-        newsHideMap = JSON.parse(getStore(KEYS.HIDE_MAP) || '{}') || {};
-      } catch (e) {}
-
-      // Input & Select Listeners
       document.getElementById('g-search').addEventListener('input', function(e) {
         gFilter.query = e.target.value;
-        document.getElementById('g-search-clear').classList.toggle('hidden', !gFilter.query);
         visibleLimit = PAGE_SIZE;
         renderGoodsList();
       });
@@ -3264,7 +2949,6 @@
 
       document.getElementById('n-search').addEventListener('input', function(e) {
         nFilter.query = e.target.value;
-        document.getElementById('n-search-clear').classList.toggle('hidden', !nFilter.query);
         renderNews();
       });
 
@@ -3278,15 +2962,36 @@
         renderNews();
       });
 
-      document.getElementById('f-thumb').addEventListener('input', updateModalPreview);
-      document.getElementById('f-char').addEventListener('change', updateModalPreview);
-      document.getElementById('f-cat').addEventListener('change', updateModalPreview);
+      document.getElementById('json-file-input').addEventListener('change', function(e) {
+        var file = e.target.files && e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function(ev) {
+          try {
+            var data = JSON.parse(ev.target.result);
+            var imported = Array.isArray(data) ? data : (data && Array.isArray(data.items) ? data.items : null);
+            if (!imported) throw new Error('Invalid JSON');
+            items = imported.map(normItem);
+            setStore(KEYS.ITEMS, JSON.stringify(items));
+            if (data && Array.isArray(data.news)) {
+              newsList = data.news.map(normNews);
+              setStore(KEYS.NEWS, JSON.stringify(newsList));
+            }
+            closeAllModals();
+            renderAll();
+            showToast('JSONを読み込みました（' + items.length + '件）');
+          } catch (err) {
+            showToast('JSONの読み込みに失敗しました');
+          }
+        };
+        reader.readAsText(file);
+        e.target.value = '';
+      });
 
       document.getElementById('goods-form').addEventListener('submit', function(e) {
         e.preventDefault();
         var existingId = document.getElementById('f-id').value.trim();
-        var nextNum = items.length + 1;
-        var finalId = existingId || ('item_' + String(nextNum).padStart(3, '0'));
+        var finalId = existingId || ('item_' + String(items.length + 1).padStart(3, '0'));
 
         var savedObj = normItem({
           id: finalId,
@@ -3313,8 +3018,8 @@
         setStore(KEYS.ITEMS, JSON.stringify(items));
         closeAllModals();
         renderAll();
-        showToast(existingId ? 'アイテムを更新しました' : '新規グッズを登録しました');
-        postToGas({ action: 'upsert', item: savedObj });
+        showToast(existingId ? '更新しました' : '新規登録しました');
+        postToGas({ action: existingId ? 'editItem' : 'addItem', item: savedObj });
       });
 
       renderAll();
